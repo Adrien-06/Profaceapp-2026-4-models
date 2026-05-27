@@ -39,6 +39,7 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
+  overflow-x: hidden;
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--ink);
   background: var(--bg);
@@ -914,6 +915,8 @@ ul { margin:0; padding:0; list-style:none; }
   .nav-links.open { opacity:1; transform:translateY(8px); pointer-events:auto; }
   .nav-links > a { padding:12px 14px; }
   .btn-primary { text-align:center; }
+  .hero { padding:0; }
+  .hero-container { padding:64px 20px 80px; }
   .hero h1 { font-size:36px; }
   .upload-card { padding:14px; }
   .dropzone { padding:22px 14px; }
@@ -923,7 +926,7 @@ ul { margin:0; padding:0; list-style:none; }
   .snap-after.a3 { width:170px; }
   .float-tag { font-size:11px; padding:6px 10px; }
   .section-head { margin-bottom:40px; }
-  .how, .pricing, .gallery, .final-cta { padding:64px 20px; }
+  .how, .pricing, .gallery, .final-cta, .models-section { padding:64px 20px; }
   .footer-grid { grid-template-columns:1fr; gap:32px; }
   .footer-bottom { flex-direction:column; align-items:flex-start; }
   .dash-stats { grid-template-columns:1fr; }
@@ -1077,6 +1080,27 @@ ul { margin:0; padding:0; list-style:none; }
   color: var(--muted);
   line-height: 1.5;
   padding: 0 4px;
+}
+
+/* ── ONE SELFIE FOUR STYLES SECTION ── */
+.mosaic-section {
+  padding: 64px 28px;
+  background: var(--bg);
+}
+.mosaic-section .section-head {
+  margin-bottom: 40px;
+}
+.mosaic-section .mosaic-grid {
+  max-width: var(--max);
+  margin: 0 auto;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.mosaic-section .mosaic-cell {
+  max-height: 280px;
+}
+.mosaic-section .mosaic-overlay {
+  display: none;
 }
 
 /* ── MODELS SHOWCASE SECTION ── */
@@ -1257,11 +1281,18 @@ ul { margin:0; padding:0; list-style:none; }
 /* ── RESPONSIVE: models grid ── */
 @media (max-width: 1100px) {
   .models-grid { grid-template-columns: repeat(2, 1fr); }
+  .mosaic-section .mosaic-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 700px) {
   .models-grid { grid-template-columns: 1fr; }
   .mosaic-grid { gap: 6px; }
+  .mosaic-section { padding: 64px 20px; }
+  .mosaic-section .mosaic-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .mosaic-section .mosaic-cell { max-height: none; }
   .picker-grid { grid-template-columns: 1fr 1fr; }
   .gallery-tabs { gap: 6px; }
   .gtab { font-size: 13px; padding: 8px 14px; }
+}
+@media (max-width: 460px) {
+  .mosaic-section .mosaic-grid { grid-template-columns: 1fr; }
 }
