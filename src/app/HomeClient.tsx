@@ -247,8 +247,14 @@ export default function HomeClient() {
     if (!valid.length) { toast('Please upload JPG, PNG or WEBP under 20 MB.'); return; }
     setFiles(prev => [...prev, ...valid].slice(0, 12));
     toast(`${valid.length} photo${valid.length > 1 ? 's' : ''} added.`);
-    if (fileInputRef.current) fileInputRef.current.value = '';
   };
+
+  const openFileInput = useCallback(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      fileInputRef.current.click();
+    }
+  }, []);
 
   const handleGenerate = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -408,7 +414,7 @@ export default function HomeClient() {
                 onDragOver={e => { e.preventDefault(); setIsDrag(true); }}
                 onDragLeave={() => setIsDrag(false)}
                 onDrop={e => { e.preventDefault(); setIsDrag(false); addFiles(e.dataTransfer.files); }}
-                onClick={() => fileInputRef.current?.click()}
+                onClick={openFileInput}
               >
                 <div className="dropzone-inner" style={{ textAlign: 'center' }}>
                   <div className="upload-icon">
