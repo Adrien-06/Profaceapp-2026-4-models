@@ -161,7 +161,6 @@ export default function HomeClient() {
   const [billing, setBilling] = useState<Billing>('monthly');
   const [files, setFiles] = useState<File[]>([]);
   const [isDrag, setIsDrag] = useState(false);
-  const [fileInputKey, setFileInputKey] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [toastMsg, setToastMsg] = useState('');
@@ -248,14 +247,8 @@ export default function HomeClient() {
     if (!valid.length) { toast('Please upload JPG, PNG or WEBP under 20 MB.'); return; }
     setFiles(prev => [...prev, ...valid].slice(0, 12));
     toast(`${valid.length} photo${valid.length > 1 ? 's' : ''} added.`);
-    setFileInputKey(prev => prev + 1);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
-
-  const openFileInput = useCallback(() => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  }, []);
 
   const handleGenerate = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -415,7 +408,6 @@ export default function HomeClient() {
                 onDragOver={e => { e.preventDefault(); setIsDrag(true); }}
                 onDragLeave={() => setIsDrag(false)}
                 onDrop={e => { e.preventDefault(); setIsDrag(false); addFiles(e.dataTransfer.files); }}
-                onClick={openFileInput}
               >
                 <div className="dropzone-inner" style={{ textAlign: 'center' }}>
                   <div className="upload-icon">
@@ -428,7 +420,7 @@ export default function HomeClient() {
                   <p className="dz-title"><strong>Drop your selfies here</strong> or click to upload</p>
                   <p className="dz-sub">JPG, PNG or WEBP · 1 - 10 photos · 20MB max each</p>
                 </div>
-                <input key={fileInputKey} ref={fileInputRef} type="file" multiple hidden accept="image/jpeg,image/png,image/webp" onChange={e => addFiles(e.target.files)}/>
+                <input ref={fileInputRef} type="file" multiple hidden accept="image/jpeg,image/png,image/webp" onChange={e => addFiles(e.target.files)}/>
               </label>
 
               {files.length > 0 && (
