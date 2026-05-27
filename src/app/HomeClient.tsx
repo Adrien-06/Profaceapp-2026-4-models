@@ -251,7 +251,7 @@ export default function HomeClient() {
     if (data.user?.id) {
       try {
         const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
-        await fetch(`${appUrl}/api/auth/send-verification`, {
+        const emailResponse = await fetch(`${appUrl}/api/auth/send-verification`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -260,6 +260,10 @@ export default function HomeClient() {
             full_name: name,
           }),
         });
+        if (!emailResponse.ok) {
+          const errorData = await emailResponse.text();
+          console.error('Verification email error:', emailResponse.status, errorData);
+        }
       } catch (err) {
         console.error('Failed to send verification email:', err);
       }
