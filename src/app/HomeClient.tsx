@@ -51,7 +51,7 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#fff',
     accent: '#F1F5F9',
     icon: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6',
-    previewImg: '/hero/REAL ESTATE 1.png',
+    previewImg: '/hero/real-estate-1.png',
   },
   executive: {
     label: 'The Executive',
@@ -62,7 +62,7 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#fff',
     accent: '#E2E8F0',
     icon: 'M8 7h8M8 12h8M8 17h5M3 3h18v18H3z',
-    previewImg: '/hero/FIRM 1.png',
+    previewImg: '/hero/firm-1.png',
   },
   analyst: {
     label: 'The Analyst',
@@ -73,7 +73,7 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#fff',
     accent: '#E8F1FB',
     icon: 'M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6',
-    previewImg: '/hero/ACCOUNT 1.png',
+    previewImg: '/hero/account-1.png',
   },
   innovator: {
     label: 'The Innovator',
@@ -84,46 +84,46 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#0F1419',
     accent: '#FEFCE8',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-    previewImg: '/hero/STARTUP 1.png',
+    previewImg: '/hero/startup-1.png',
   },
 };
 
 const GALLERY_IMAGES: Record<ModelId, { img: string; cap: string }[]> = {
   realtor: [
-    { img: '/hero/REAL ESTATE 1.png', cap: 'Professional & Warm' },
-    { img: '/hero/REAL ESTATE 2.png', cap: 'Client-Ready' },
-    { img: '/hero/REAL ESTATE 3.png', cap: 'Trustworthy' },
-    { img: '/hero/REAL ESTATE 4.png', cap: 'Approachable' },
-    { img: '/hero/REAL ESTATE 5.png', cap: 'Expert' },
+    { img: '/hero/real-estate-1.png', cap: 'Professional & Warm' },
+    { img: '/hero/real-estate-2.png', cap: 'Client-Ready' },
+    { img: '/hero/real-estate-3.png', cap: 'Trustworthy' },
+    { img: '/hero/real-estate-4.png', cap: 'Approachable' },
+    { img: '/hero/real-estate-5.png', cap: 'Expert' },
   ],
   executive: [
-    { img: '/hero/FIRM 1.png', cap: 'Boardroom Authority' },
-    { img: '/hero/FIRM 2.png', cap: 'Partner-Grade' },
-    { img: '/hero/FIRM 3.png', cap: 'Corporate Confidence' },
-    { img: '/hero/FIRM 4.png', cap: 'Courthouse Ready' },
-    { img: '/hero/FIRM 5.png', cap: 'C-Suite Presence' },
+    { img: '/hero/firm-1.png', cap: 'Boardroom Authority' },
+    { img: '/hero/firm-2.png', cap: 'Partner-Grade' },
+    { img: '/hero/firm-3.png', cap: 'Corporate Confidence' },
+    { img: '/hero/firm-4.png', cap: 'Courthouse Ready' },
+    { img: '/hero/firm-5.png', cap: 'C-Suite Presence' },
   ],
   analyst: [
-    { img: '/hero/ACCOUNT 1.png', cap: 'Precision & Trust' },
-    { img: '/hero/ACCOUNT 2.png', cap: 'Fiduciary Confidence' },
-    { img: '/hero/ACCOUNT 3.png', cap: 'Clean Corporate' },
-    { img: '/hero/ACCOUNT 4.png', cap: 'Financial Authority' },
-    { img: '/hero/ACCOUNT 5.png', cap: 'Neutral Mastery' },
+    { img: '/hero/account-1.png', cap: 'Precision & Trust' },
+    { img: '/hero/account-2.png', cap: 'Fiduciary Confidence' },
+    { img: '/hero/account-3.png', cap: 'Clean Corporate' },
+    { img: '/hero/account-4.png', cap: 'Financial Authority' },
+    { img: '/hero/account-5.png', cap: 'Neutral Mastery' },
   ],
   innovator: [
-    { img: '/hero/STARTUP 1.png', cap: 'Forward Thinking' },
-    { img: '/hero/STARTUP 2.png', cap: 'Startup Founder' },
-    { img: '/hero/STARTUP 3.png', cap: 'Tech Visionary' },
-    { img: '/hero/STARTUP 4.png', cap: 'Modern Disruptor' },
-    { img: '/hero/STARTUP 5.png', cap: 'Creative Leader' },
+    { img: '/hero/startup-1.png', cap: 'Forward Thinking' },
+    { img: '/hero/startup-2.png', cap: 'Startup Founder' },
+    { img: '/hero/startup-3.png', cap: 'Tech Visionary' },
+    { img: '/hero/startup-4.png', cap: 'Modern Disruptor' },
+    { img: '/hero/startup-5.png', cap: 'Creative Leader' },
   ],
 };
 
 const MOSAIC_IMAGES: { model: ModelId; img: string; label: string }[] = [
-  { model: 'realtor',   img: '/hero/REAL ESTATE 1.png',  label: 'The Realtor' },
-  { model: 'executive', img: '/hero/FIRM 2.png',         label: 'The Executive' },
-  { model: 'analyst',   img: '/hero/ACCOUNT 3.png',      label: 'The Analyst' },
-  { model: 'innovator', img: '/hero/STARTUP 5.png',      label: 'The Innovator' },
+  { model: 'realtor',   img: '/hero/real-estate-1.png',  label: 'The Realtor' },
+  { model: 'executive', img: '/hero/firm-2.png',         label: 'The Executive' },
+  { model: 'analyst',   img: '/hero/account-3.png',      label: 'The Analyst' },
+  { model: 'innovator', img: '/hero/startup-5.png',      label: 'The Innovator' },
 ];
 
 function AuthAutoOpen({ onOpen }: { onOpen: (tab: AuthTab) => void }) {
