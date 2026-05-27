@@ -16,6 +16,8 @@ async function addCredits(
   credits: number,
   plan: string,
   sessionId: string,
+  billing?: string,
+  subscriptionId?: string,
 ) {
   const supabase = createServiceClient();
 
@@ -40,8 +42,43 @@ async function addCredits(
 
   const profileId: string = profiles[0].id;
 
-  // Atomic claim via DB function — prevents race condition with /confirm endpoint
-  // RPC handles both credit update AND logging, returns true if applied, false if already credited
+  // For yearly subscriptions: distribute credits monthly instead of all at once
+  if (billing === 'yearly' && subscriptionId) {
+    const monthlyAmount = Math.floor(credits / 12);
+    const { error: insertError } = await supabase
+      .from('subscription_monthly_credits')
+      .upsert({
+        user_id: profileId,
+        subscription_id: subscriptionId,
+        total_credits: credits,
+        monthly_credit_amount: monthlyAmount,
+        billing_cycle_month: 0,
+        total_months: 12,
+      });
+
+    if (insertError) {
+      console.error('[stripe-webhook] failed to create monthly credits allocation:', insertError);
+      return false;
+    }
+
+    // Distribute first month credits immediately
+    const firstMonthAmount = Math.floor(credits / 12);
+    const { error: incrementError } = await supabase.rpc('increment_user_credits', {
+      p_user_id: profileId,
+      amount: firstMonthAmount,
+      reason: 'yearly_subscription_month_1',
+    });
+
+    if (incrementError) {
+      console.error('[stripe-webhook] failed to add first month credits:', incrementError);
+      return false;
+    }
+
+    console.log(`[stripe-webhook] yearly subscription setup: +${monthlyAmount}/month × 12 → user ${profileId}`);
+    return true;
+  }
+
+  // For monthly subscriptions or one-time: apply all credits immediately via DB function
   const { data: credited, error: rpcError } = await supabase.rpc('credit_stripe_session', {
     p_session_id: sessionId,
     p_user_id: profileId,
@@ -93,14 +130,16 @@ export async function POST(req: Request) {
     const userId  = session.metadata?.user_id ?? null;
     const email   = session.customer_details?.email ?? session.metadata?.user_email ?? null;
     const plan    = session.metadata?.plan ?? 'pro';
+    const billing = session.metadata?.billing ?? 'monthly';
     const credits = parseInt(session.metadata?.credits ?? '0', 10) || PLAN_CREDITS[plan] || 0;
+    const subscriptionId = session.subscription as string | null;
 
     if (!credits) {
       console.error('[stripe-webhook] credits = 0, skipping', session.id);
       return NextResponse.json({ received: true });
     }
 
-    await addCredits(userId, email, credits, plan, session.id);
+    await addCredits(userId, email, credits, plan, session.id, billing, subscriptionId ?? undefined);
   }
 
   // invoice.payment_succeeded — fires on subscription renewals
@@ -121,10 +160,18 @@ export async function POST(req: Request) {
     const userId  = subscription.metadata?.user_id ?? null;
     const email   = invoice.customer_email ?? null;
     const plan    = subscription.metadata?.plan ?? 'pro';
+    const billing = subscription.metadata?.billing ?? 'monthly';
     const credits = parseInt(subscription.metadata?.credits ?? '0', 10) || PLAN_CREDITS[plan] || 0;
 
     if (credits) {
-      await addCredits(userId, email, credits, plan, invoice.id);
+      // For monthly subscriptions: add credits immediately on renewal
+      // For yearly subscriptions: monthly distribution is handled automatically via cron
+      if (billing === 'monthly') {
+        await addCredits(userId, email, credits, plan, invoice.id, billing, subscriptionId);
+      } else {
+        // Yearly: credits already set up for monthly distribution, just log the renewal
+        console.log(`[stripe-webhook] yearly subscription renewal (${subscriptionId}): monthly distribution continues`);
+      }
     }
   }
 
