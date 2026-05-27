@@ -79,7 +79,7 @@ const MODELS: Record<ModelId, {
     label: 'The Innovator',
     tagline: 'Startups & Entrepreneurs',
     desc: "Modern, dynamic, forward-looking. The shot that says you're building the future.",
-    color: '#FFFD73',
+    color: '#F8FF1C',
     textColor: '#0F1419',
     btnTextColor: '#0F1419',
     accent: '#FEFCE8',
@@ -393,7 +393,7 @@ export default function HomeClient() {
                         onClick={() => setSelectedModel(id)}
                         title={m.desc}
                       >
-                        <span className="picker-dot" style={{ background: m.color, border: m.color === '#FFFD73' ? '1.5px solid rgba(0,0,0,.15)' : undefined }}/>
+                        <span className="picker-dot" style={{ background: m.color, border: m.color === '#F8FF1C' ? '1.5px solid rgba(0,0,0,.15)' : undefined }}/>
                         <span className="picker-label-group">
                           <span className="picker-name">{m.label}</span>
                           <span className="picker-sector">{m.tagline}</span>
@@ -658,7 +658,7 @@ export default function HomeClient() {
                 style={active ? { borderColor: m.color, color: m.textColor, background: m.accent } as React.CSSProperties : {}}
                 onClick={() => setGalleryTab(id)}
               >
-                <span className="gtab-dot" style={{ background: m.color, border: m.color === '#FFFD73' ? '1.5px solid rgba(0,0,0,.15)' : undefined }}/>
+                <span className="gtab-dot" style={{ background: m.color, border: m.color === '#F8FF1C' ? '1.5px solid rgba(0,0,0,.15)' : undefined }}/>
                 {m.label}
               </button>
             );
