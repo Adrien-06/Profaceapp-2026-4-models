@@ -247,6 +247,7 @@ export default function HomeClient() {
     if (!valid.length) { toast('Please upload JPG, PNG or WEBP under 20 MB.'); return; }
     setFiles(prev => [...prev, ...valid].slice(0, 12));
     toast(`${valid.length} photo${valid.length > 1 ? 's' : ''} added.`);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleGenerate = async () => {
