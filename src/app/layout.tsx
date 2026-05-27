@@ -5,9 +5,9 @@ export const metadata: Metadata = {
   title: 'Proface app | professional shots in seconds',
   description: 'Generate studio-quality AI professional headshots in seconds. Upload selfies, get 1 polished portrait for LinkedIn, resumes & team pages.',
   icons: {
-    icon: '/hero/favicon.png',
-    shortcut: '/hero/favicon.png',
-    apple: '/hero/favicon.png',
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
   },
   openGraph: {
     title: 'ProFaceApp — AI Professional Headshots',
