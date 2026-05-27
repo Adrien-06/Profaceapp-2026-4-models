@@ -1082,27 +1082,6 @@ ul { margin:0; padding:0; list-style:none; }
   padding: 0 4px;
 }
 
-/* ── ONE SELFIE FOUR STYLES SECTION ── */
-.mosaic-section {
-  padding: 64px 28px;
-  background: var(--bg);
-}
-.mosaic-section .section-head {
-  margin-bottom: 40px;
-}
-.mosaic-section .mosaic-grid {
-  max-width: var(--max);
-  margin: 0 auto;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-.mosaic-section .mosaic-cell {
-  max-height: 280px;
-}
-.mosaic-section .mosaic-overlay {
-  display: none;
-}
-
 /* ── MODELS SHOWCASE SECTION ── */
 .models-section {
   padding: 64px 28px;
@@ -1281,18 +1260,11 @@ ul { margin:0; padding:0; list-style:none; }
 /* ── RESPONSIVE: models grid ── */
 @media (max-width: 1100px) {
   .models-grid { grid-template-columns: repeat(2, 1fr); }
-  .mosaic-section .mosaic-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 700px) {
   .models-grid { grid-template-columns: 1fr; }
   .mosaic-grid { gap: 6px; }
-  .mosaic-section { padding: 64px 20px; }
-  .mosaic-section .mosaic-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .mosaic-section .mosaic-cell { max-height: none; }
   .picker-grid { grid-template-columns: 1fr 1fr; }
   .gallery-tabs { gap: 6px; }
   .gtab { font-size: 13px; padding: 8px 14px; }
-}
-@media (max-width: 460px) {
-  .mosaic-section .mosaic-grid { grid-template-columns: 1fr; }
 }

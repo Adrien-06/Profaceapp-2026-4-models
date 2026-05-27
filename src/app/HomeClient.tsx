@@ -51,7 +51,7 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#fff',
     accent: '#F1F5F9',
     icon: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6',
-    previewImg: '/hero/real-estate-1.webp',
+    previewImg: '/hero/real-estate-4.webp',
   },
   executive: {
     label: 'The Executive',
@@ -62,7 +62,7 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#fff',
     accent: '#E2E8F0',
     icon: 'M8 7h8M8 12h8M8 17h5M3 3h18v18H3z',
-    previewImg: '/hero/firm-2.webp',
+    previewImg: '/hero/firm-4.webp',
   },
   analyst: {
     label: 'The Analyst',
@@ -73,7 +73,7 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#fff',
     accent: '#E8F1FB',
     icon: 'M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6',
-    previewImg: '/hero/account-3.webp',
+    previewImg: '/hero/account-4.webp',
   },
   innovator: {
     label: 'The Innovator',
@@ -84,7 +84,7 @@ const MODELS: Record<ModelId, {
     btnTextColor: '#fff',
     accent: '#F3E5FF',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-    previewImg: '/hero/startup-5.webp',
+    previewImg: '/hero/startup-4.webp',
   },
 };
 
@@ -93,25 +93,21 @@ const GALLERY_IMAGES: Record<ModelId, { img: string; cap: string }[]> = {
     { img: '/hero/real-estate-1.webp', cap: 'Professional & Warm' },
     { img: '/hero/real-estate-2.webp', cap: 'Client-Ready' },
     { img: '/hero/real-estate-3.webp', cap: 'Trustworthy' },
-    { img: '/hero/real-estate-4.webp', cap: 'Approachable' },
     { img: '/hero/real-estate-5.webp', cap: 'Expert' },
   ],
   executive: [
     { img: '/hero/firm-2.webp', cap: 'Partner-Grade' },
     { img: '/hero/firm-3.webp', cap: 'Corporate Confidence' },
-    { img: '/hero/firm-4.webp', cap: 'Courthouse Ready' },
     { img: '/hero/firm-5.webp', cap: 'C-Suite Presence' },
     { img: '/hero/firm-1.webp', cap: 'Boardroom Authority' },
   ],
   analyst: [
     { img: '/hero/account-3.webp', cap: 'Clean Corporate' },
-    { img: '/hero/account-4.webp', cap: 'Financial Authority' },
     { img: '/hero/account-5.webp', cap: 'Neutral Mastery' },
     { img: '/hero/account-1.webp', cap: 'Precision & Trust' },
     { img: '/hero/account-2.webp', cap: 'Fiduciary Confidence' },
   ],
   innovator: [
-    { img: '/hero/startup-4.webp', cap: 'Modern Disruptor' },
     { img: '/hero/startup-5.webp', cap: 'Creative Leader' },
     { img: '/hero/startup-1.webp', cap: 'Forward Thinking' },
     { img: '/hero/startup-2.webp', cap: 'Startup Founder' },
@@ -501,36 +497,6 @@ export default function HomeClient() {
               <span> — {activeModel.desc}</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ── ONE SELFIE FOUR STYLES ── */}
-      <section className="mosaic-section">
-        <div className="section-head">
-          <span className="kicker">One Selfie, Four Styles</span>
-          <h2>One selfie four styles</h2>
-        </div>
-        <div className="mosaic-grid">
-          {[
-            { model: 'realtor', img: '/hero/real-estate-4.webp', label: 'The Realtor' },
-            { model: 'executive', img: '/hero/firm-4.webp', label: 'The Executive' },
-            { model: 'analyst', img: '/hero/account-4.webp', label: 'The Analyst' },
-            { model: 'innovator', img: '/hero/startup-4.webp', label: 'The Innovator' },
-          ].map(({ model, img, label }) => {
-            const m = MODELS[model as ModelId];
-            return (
-              <div key={model} className="mosaic-cell" style={{ '--mi': `url(${img})` } as React.CSSProperties}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img} alt={label} />
-                <div className="mosaic-overlay" style={{ background: `linear-gradient(to top, ${m.color}cc 0%, transparent 50%)` }}>
-                  <div className="mosaic-label" style={{ color: m.textColor }}>
-                    <div className="mosaic-label-name">{label}</div>
-                    <div className="mosaic-label-tagline">{m.tagline}</div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
         </div>
       </section>
 
