@@ -44,8 +44,8 @@ const MODELS: Record<ModelId, {
     label: 'The Realtor',
     tagline: 'Real Estate & Properties',
     desc: 'Warm, approachable look with natural lighting. Build instant trust with clients.',
-    color: '#d97706',
-    accent: '#fef3c7',
+    color: '#92400E',
+    accent: '#FFF7ED',
     icon: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6',
     previewImg: '/hero/s1.png',
   },
@@ -62,8 +62,8 @@ const MODELS: Record<ModelId, {
     label: 'The Analyst',
     tagline: 'Finance & Corporate Trust',
     desc: 'Clean, neutral precision. The portrait that wins fiduciary confidence on first sight.',
-    color: '#0f766e',
-    accent: '#ccfbf1',
+    color: '#0369A1',
+    accent: '#E0F2FE',
     icon: 'M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6',
     previewImg: '/hero/v2.avif',
   },
@@ -71,8 +71,8 @@ const MODELS: Record<ModelId, {
     label: 'The Innovator',
     tagline: 'Startups & Entrepreneurs',
     desc: "Modern, dynamic, forward-looking. The shot that says you're building the future.",
-    color: '#7c3aed',
-    accent: '#ede9fe',
+    color: '#3730A3',
+    accent: '#EEF2FF',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
     previewImg: '/hero/h7.webp',
   },
@@ -473,8 +473,10 @@ export default function HomeClient() {
                   <img src={img} alt={label} />
                   <div className="mosaic-overlay" style={{ background: `linear-gradient(to top, ${MODELS[model].color}cc 0%, transparent 55%)` }}/>
                   <div className="mosaic-label">
-                    <span className="mosaic-dot" style={{ background: '#fff', opacity: 0.9 }}/>
-                    {label}
+                    <div>
+                      <div className="mosaic-label-name">{label}</div>
+                      <div className="mosaic-label-tagline">{MODELS[model].tagline}</div>
+                    </div>
                   </div>
                   {selectedModel === model && (
                     <div className="mosaic-badge" style={{ background: MODELS[model].color }}>✓ Selected</div>
@@ -588,7 +590,7 @@ export default function HomeClient() {
               <div className="price">
                 <span className="cur">$</span>
                 <span className="amt">{PRICES[plan][billing]}</span>
-                <span className="per">{billing === 'yearly' ? '/mo, billed yearly' : '/month'}</span>
+                <span className="per">{plan === 'oneshot' ? '' : billing === 'yearly' ? '/mo, billed yearly' : '/month'}</span>
               </div>
               <p className="billed">{BILLED[plan][billing]}</p>
               <button className={`plan-btn${plan === 'pro' ? ' primary' : ''}`} onClick={() => handlePlan(plan)}>
@@ -600,7 +602,7 @@ export default function HomeClient() {
                   <li><span className="check">✓</span><span>All 4 AI models included</span></li>
                   <li><span className="check">✓</span><span>Standard render queue</span></li>
                   <li><span className="check">✓</span><span>Private My Folders storage</span></li>
-                  <li><span className="check">✓</span><span>HD downloads (1055px)</span></li>
+                  <li><span className="check">✓</span><span>HD downloads</span></li>
                 </>}
                 {plan === 'pro' && <>
                   <li><span className="check">✓</span><span><strong>100 photos</strong> / month</span></li>
@@ -608,7 +610,7 @@ export default function HomeClient() {
                   <li><span className="check">✓</span><span>High-likeness AI rendering</span></li>
                   <li><span className="check">✓</span><span>Priority render queue</span></li>
                   <li><span className="check">✓</span><span>Private My Folders storage</span></li>
-                  <li><span className="check">✓</span><span>HD downloads (1055px)</span></li>
+                  <li><span className="check">✓</span><span>HD downloads</span></li>
                 </>}
                 {plan === 'max' && <>
                   <li><span className="check">✓</span><span><strong>250 photos</strong> / month</span></li>
@@ -617,7 +619,7 @@ export default function HomeClient() {
                   <li><span className="check">✓</span><span>Instant priority rendering</span></li>
                   <li><span className="check">✓</span><span>Dedicated support</span></li>
                   <li><span className="check">✓</span><span>Private My Folders storage</span></li>
-                  <li><span className="check">✓</span><span>HD downloads (1055px)</span></li>
+                  <li><span className="check">✓</span><span>HD downloads</span></li>
                 </>}
               </ul>
             </article>
