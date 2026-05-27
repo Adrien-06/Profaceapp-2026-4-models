@@ -32,7 +32,7 @@ serve(async (req: Request) => {
     // Create Supabase client
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!)
 
-    // Generate verification token (using Supabase's built-in token)
+    // Generate verification token
     const { data, error } = await supabase.auth.admin.generateLink({
       type: 'signup',
       email,
@@ -50,51 +50,124 @@ serve(async (req: Request) => {
     const verificationLink = data.properties.action_link
     const name = full_name?.split(' ')[0] || 'User'
 
-    // Send email via Resend
+    // Professional email template with logo
     const emailHtml = `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
           <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: #0B66E4; color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+              color: #111111;
+              background-color: #f5f5f5;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              max-width: 550px;
+              margin: 32px auto;
+              padding: 32px;
+              border: 1px solid #ebedf0;
+              border-radius: 8px;
+              background-color: #ffffff;
+            }
+            .logo {
+              text-align: center;
+              margin-bottom: 32px;
+            }
+            .logo img {
+              width: 48px;
+              height: 48px;
+              border-radius: 12px;
+            }
+            h2 {
+              font-size: 24px;
+              font-weight: 700;
+              color: #111111;
+              margin-top: 0;
+              margin-bottom: 24px;
+            }
+            p {
+              font-size: 16px;
+              line-height: 24px;
+              color: #444444;
+              margin: 0 0 24px 0;
+            }
+            .button-container {
+              text-align: center;
+              margin: 32px 0;
+            }
             .button {
-              display: inline-block;
-              background: #0B66E4;
-              color: white;
-              padding: 12px 32px;
+              background-color: #000000;
+              color: #ffffff;
+              padding: 12px 28px;
               text-decoration: none;
               border-radius: 6px;
-              margin: 20px 0;
+              font-size: 16px;
+              font-weight: 600;
+              display: inline-block;
+              transition: background-color 0.2s ease;
             }
-            .footer { color: #666; font-size: 12px; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px; }
+            .button:hover {
+              background-color: #1a1a1a;
+            }
+            .divider {
+              border: none;
+              border-top: 1px solid #ebedf0;
+              margin: 24px 0;
+            }
+            .footer {
+              font-size: 12px;
+              line-height: 18px;
+              color: #888888;
+            }
+            .footer-link {
+              color: #0066cc;
+              word-break: break-all;
+            }
+            .signature {
+              font-size: 12px;
+              color: #888888;
+              margin-top: 20px;
+              margin-bottom: 0;
+            }
           </style>
         </head>
         <body>
           <div class="container">
-            <div class="header">
-              <h1>Verify Your Email</h1>
+            <div class="logo">
+              <img src="${APP_URL}/logo.png" alt="ProFaceApp" />
             </div>
-            <div class="content">
-              <p>Hi ${name},</p>
-              <p>Thanks for signing up for ProFaceApp! Please verify your email address by clicking the button below:</p>
+
+            <h2>Welcome to ProFace!</h2>
+
+            <p>Thanks for signing up. To complete your registration and activate your account, please verify your email address by clicking the button below:</p>
+
+            <div class="button-container">
               <a href="${verificationLink}" class="button">Verify Email Address</a>
-              <p>Or copy this link: <a href="${verificationLink}">${verificationLink}</a></p>
-              <p>This link expires in 24 hours.</p>
-              <p>If you didn't create this account, you can ignore this email.</p>
-              <div class="footer">
-                <p>ProFaceApp - Professional AI Headshots</p>
-                <p>© 2026 ProFaceApp. All rights reserved.</p>
-              </div>
+            </div>
+
+            <p>This link will expire in 24 hours. If you did not create a ProFace account, no further action is required and you can safely ignore this email.</p>
+
+            <hr class="divider" />
+
+            <div class="footer">
+              <p>If you're having trouble clicking the button, copy and paste the URL below into your web browser:<br />
+              <span class="footer-link">${verificationLink}</span></p>
+
+              <p class="signature">
+                Best regards,<br />
+                <strong>The ProFace Team</strong>
+              </p>
             </div>
           </div>
         </body>
       </html>
     `
 
+    // Send email via Resend
     const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -131,3 +204,4 @@ serve(async (req: Request) => {
     })
   }
 })
+
