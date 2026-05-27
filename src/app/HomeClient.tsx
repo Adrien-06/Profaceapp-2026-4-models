@@ -235,10 +235,20 @@ export default function HomeClient() {
     const name = (form.elements.namedItem('name') as HTMLInputElement).value;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
-    const { error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: name } } });
+
+    const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: name },
+        emailRedirectTo: `${appUrl}/auth/callback`,
+      }
+    });
     setAuthLoading(false);
     if (error) { setAuthError(error.message); return; }
-    setAuthOpen(false); toast('Account created — check your email to confirm.'); router.refresh();
+    setAuthOpen(false); toast('Account created! Please check your email to verify your address.'); router.refresh();
   };
 
   const addFiles = (incoming: FileList | null) => {
