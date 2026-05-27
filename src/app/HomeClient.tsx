@@ -36,6 +36,8 @@ const MODELS: Record<ModelId, {
   tagline: string;
   desc: string;
   color: string;
+  textColor: string;
+  btnTextColor: string;
   accent: string;
   icon: string;
   previewImg: string;
@@ -44,8 +46,10 @@ const MODELS: Record<ModelId, {
     label: 'The Realtor',
     tagline: 'Real Estate & Properties',
     desc: 'Warm, approachable look with natural lighting. Build instant trust with clients.',
-    color: '#92400E',
-    accent: '#FFF7ED',
+    color: '#475569',
+    textColor: '#475569',
+    btnTextColor: '#fff',
+    accent: '#F1F5F9',
     icon: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6',
     previewImg: '/hero/s1.png',
   },
@@ -53,8 +57,10 @@ const MODELS: Record<ModelId, {
     label: 'The Executive',
     tagline: 'Legal & Consulting Excellence',
     desc: 'Dark charcoal boardroom. Commanding authority for law firms and C-suite professionals.',
-    color: '#1e3a5f',
-    accent: '#dbeafe',
+    color: '#0F1419',
+    textColor: '#0F1419',
+    btnTextColor: '#fff',
+    accent: '#E2E8F0',
     icon: 'M8 7h8M8 12h8M8 17h5M3 3h18v18H3z',
     previewImg: '/hero/h1.webp',
   },
@@ -62,8 +68,10 @@ const MODELS: Record<ModelId, {
     label: 'The Analyst',
     tagline: 'Finance & Corporate Trust',
     desc: 'Clean, neutral precision. The portrait that wins fiduciary confidence on first sight.',
-    color: '#0369A1',
-    accent: '#E0F2FE',
+    color: '#0A66C2',
+    textColor: '#0A66C2',
+    btnTextColor: '#fff',
+    accent: '#E8F1FB',
     icon: 'M3 21h18M5 21V8l7-5 7 5v13M10 21v-6h4v6',
     previewImg: '/hero/v2.avif',
   },
@@ -71,8 +79,10 @@ const MODELS: Record<ModelId, {
     label: 'The Innovator',
     tagline: 'Startups & Entrepreneurs',
     desc: "Modern, dynamic, forward-looking. The shot that says you're building the future.",
-    color: '#3730A3',
-    accent: '#EEF2FF',
+    color: '#FFF200',
+    textColor: '#0F1419',
+    btnTextColor: '#0F1419',
+    accent: '#FEFCE8',
     icon: 'M13 10V3L4 14h7v7l9-11h-7z',
     previewImg: '/hero/h7.webp',
   },
@@ -383,9 +393,11 @@ export default function HomeClient() {
                         onClick={() => setSelectedModel(id)}
                         title={m.desc}
                       >
-                        <span className="picker-dot" style={{ background: m.color }}/>
-                        <span className="picker-name">{m.label}</span>
-                        <span className="picker-sector">{m.tagline}</span>
+                        <span className="picker-dot" style={{ background: m.color, border: m.color === '#FFF200' ? '1.5px solid rgba(0,0,0,.15)' : undefined }}/>
+                        <span className="picker-label-group">
+                          <span className="picker-name">{m.label}</span>
+                          <span className="picker-sector">{m.tagline}</span>
+                        </span>
                         {active && <span className="picker-check">✓</span>}
                       </button>
                     );
@@ -427,7 +439,7 @@ export default function HomeClient() {
               <button
                 type="button"
                 className="cta"
-                style={{ background: activeModel.color }}
+                style={{ background: activeModel.color, color: activeModel.btnTextColor }}
                 onClick={handleGenerate}
               >
                 <span>Generate as {activeModel.label}</span>
@@ -485,7 +497,7 @@ export default function HomeClient() {
               ))}
             </div>
             <div className="mosaic-caption">
-              <strong style={{ color: activeModel.color }}>{activeModel.label}</strong>
+              <strong style={{ color: activeModel.textColor }}>{activeModel.label}</strong>
               <span> — {activeModel.desc}</span>
             </div>
           </div>
@@ -517,19 +529,19 @@ export default function HomeClient() {
                   </div>
                 </div>
                 <div className="mc-body">
-                  <div className="mc-icon" style={{ background: m.accent, color: m.color }}>
+                  <div className="mc-icon" style={{ background: m.accent, color: m.textColor }}>
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d={m.icon}/>
                     </svg>
                   </div>
-                  <h3 style={{ color: m.color }}>{m.label}</h3>
+                  <h3 style={{ color: m.textColor }}>{m.label}</h3>
                   <p className="mc-sector">{m.tagline}</p>
                   <p className="mc-desc">{m.desc}</p>
                   <button
                     className="mc-btn"
                     style={active
-                      ? { background: m.color, color: '#fff', borderColor: m.color }
-                      : { background: 'transparent', color: m.color, borderColor: m.color }}
+                      ? { background: m.color, color: m.btnTextColor, borderColor: m.color }
+                      : { background: 'transparent', color: m.textColor, borderColor: m.color }}
                     onClick={() => { setSelectedModel(id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   >
                     {active ? '✓ Selected — scroll up to generate' : 'Choose this style'}
@@ -643,10 +655,10 @@ export default function HomeClient() {
               <button
                 key={id}
                 className={`gtab${active ? ' gtab-active' : ''}`}
-                style={active ? { borderColor: m.color, color: m.color, background: m.accent } as React.CSSProperties : {}}
+                style={active ? { borderColor: m.color, color: m.textColor, background: m.accent } as React.CSSProperties : {}}
                 onClick={() => setGalleryTab(id)}
               >
-                <span className="gtab-dot" style={{ background: m.color }}/>
+                <span className="gtab-dot" style={{ background: m.color, border: m.color === '#FFF200' ? '1.5px solid rgba(0,0,0,.15)' : undefined }}/>
                 {m.label}
               </button>
             );
@@ -654,7 +666,7 @@ export default function HomeClient() {
         </div>
 
         <p className="gallery-tab-desc">
-          <strong style={{ color: MODELS[galleryTab].color }}>{MODELS[galleryTab].label}</strong>
+          <strong style={{ color: MODELS[galleryTab].textColor }}>{MODELS[galleryTab].label}</strong>
           {' '}—{' '}{MODELS[galleryTab].desc}
         </p>
 
@@ -674,7 +686,7 @@ export default function HomeClient() {
         <div className="gallery-cta-row">
           <button
             className="cta inline"
-            style={{ background: MODELS[galleryTab].color }}
+            style={{ background: MODELS[galleryTab].color, color: MODELS[galleryTab].btnTextColor }}
             onClick={() => { setSelectedModel(galleryTab); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
           >
             <span>Generate as {MODELS[galleryTab].label}</span>
@@ -861,7 +873,7 @@ export default function HomeClient() {
             <button className="close-modal" onClick={() => setGenOpen(false)}>×</button>
             {!genDone ? (
               <div>
-                <div className="gen-model-badge" style={{ background: activeModel.accent, color: activeModel.color }}>
+                <div className="gen-model-badge" style={{ background: activeModel.accent, color: activeModel.textColor }}>
                   {activeModel.label} · {activeModel.tagline}
                 </div>
                 <h3>Generating your {activeModel.label} pack…</h3>
@@ -879,7 +891,7 @@ export default function HomeClient() {
               </div>
             ) : (
               <div>
-                <div className="gen-model-badge" style={{ background: activeModel.accent, color: activeModel.color }}>
+                <div className="gen-model-badge" style={{ background: activeModel.accent, color: activeModel.textColor }}>
                   {activeModel.label} · {activeModel.tagline}
                 </div>
                 <h3>Your headshot is ready ✨</h3>
@@ -891,7 +903,7 @@ export default function HomeClient() {
                   ))}
                 </div>
                 <div className="result-actions">
-                  <button className="cta" style={{ background: activeModel.color }} onClick={() => { setGenOpen(false); router.push('/dashboard'); }}>
+                  <button className="cta" style={{ background: activeModel.color, color: activeModel.btnTextColor }} onClick={() => { setGenOpen(false); router.push('/dashboard'); }}>
                     <span>Go to My Folders</span>
                   </button>
                   <button className="btn-ghost-2" onClick={() => setGenOpen(false)}>Close</button>
