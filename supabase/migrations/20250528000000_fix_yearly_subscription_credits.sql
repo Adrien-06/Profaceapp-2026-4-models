@@ -104,11 +104,17 @@ begin
 end;
 $$ language plpgsql security definer;
 
--- Create pg_cron scheduled job if not exists
--- This will run at 1 AM UTC every day and distribute credits once per month
--- Note: Requires pg_cron extension to be enabled in Supabase
-select cron.schedule(
-  'distribute-yearly-subscription-credits',
-  '0 1 * * *',  -- Daily at 1 AM UTC
-  'select public.distribute_monthly_credits();'
-) on conflict (jobname) do update set schedule = '0 1 * * *';
+-- ============================================================
+-- MANUAL SETUP REQUIRED: pg_cron scheduled job
+-- ============================================================
+-- To enable automatic monthly credit distribution for yearly subscriptions,
+-- run this in the Supabase SQL editor (or via Dashboard > Functions > Cron Jobs):
+--
+-- select cron.schedule(
+--   'distribute-yearly-subscription-credits',
+--   '0 1 * * *',
+--   'select public.distribute_monthly_credits();'
+-- );
+--
+-- This schedules the distribution function to run daily at 1 AM UTC.
+-- The function includes a temporal guard to distribute credits only once per calendar month.
