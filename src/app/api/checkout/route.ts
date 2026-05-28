@@ -58,6 +58,7 @@ export async function GET(req: Request) {
         payment_method_types: ['card'],
         customer_email: user.email,
         line_items: [{ price: priceId, quantity: 1 }],
+        automatic_tax: { enabled: true },
         metadata: {
                 plan,
                 billing,
