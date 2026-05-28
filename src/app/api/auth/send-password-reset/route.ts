@@ -27,10 +27,15 @@ export async function POST(req: Request) {
     // Create Supabase client with service role key
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Generate password reset link using admin API
+    const appBase = process.env.NEXT_PUBLIC_APP_URL || 'https://profaceapp.com';
+
+    // Generate password reset link with redirect_to pointing to our reset page
     const { data, error } = await supabase.auth.admin.generateLink({
       type: 'recovery',
       email,
+      options: {
+        redirectTo: `${appBase}/auth/reset-password`,
+      },
     });
 
     if (error || !data?.properties?.action_link) {
@@ -41,13 +46,11 @@ export async function POST(req: Request) {
       );
     }
 
-    const recoveryLink = data.properties.action_link;
-
-    // Redirect the recovery link to our reset password page
-    const resetPageUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://profaceapp.com'}/auth/reset-password${recoveryLink.includes('#') ? recoveryLink.substring(recoveryLink.indexOf('#')) : ''}`;
+    // Send the original Supabase action_link — Supabase verifies the token
+    // then redirects to /auth/reset-password with #access_token=...&type=recovery in the hash
+    const resetPageUrl = data.properties.action_link;
 
     // Professional email template
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://profaceapp.com';
     const emailHtml = `
       <!DOCTYPE html>
       <html>
