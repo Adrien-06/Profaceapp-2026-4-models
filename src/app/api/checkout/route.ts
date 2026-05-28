@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createServiceClient } from '@/lib/supabase/server';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
 
@@ -50,13 +50,43 @@ export async function GET(req: Request) {
     }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
-
   const isOneShot = plan === 'oneshot';
+
+  // Get or create Stripe customer
+  let customerId: string;
+  try {
+    const admin = createServiceClient();
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('stripe_customer_id')
+      .eq('id', user.id)
+      .single();
+
+    if (profile?.stripe_customer_id) {
+      customerId = profile.stripe_customer_id;
+    } else {
+      // Create new customer
+      const customer = await stripe.customers.create({
+        email: user.email,
+        metadata: { user_id: user.id },
+      });
+      customerId = customer.id;
+
+      // Save to profiles
+      await admin
+        .from('profiles')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', user.id);
+    }
+  } catch (error) {
+    console.error('[checkout] failed to get/create customer:', error);
+    return NextResponse.json({ error: 'Failed to initialize payment' }, { status: 500 });
+  }
 
   const session = await stripe.checkout.sessions.create({
         mode: isOneShot ? 'payment' : 'subscription',
         payment_method_types: ['card'],
-        customer_email: user.email,
+        customer: customerId,
         line_items: [{ price: priceId, quantity: 1 }],
         automatic_tax: { enabled: true },
         metadata: {
