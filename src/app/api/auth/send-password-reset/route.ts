@@ -43,6 +43,9 @@ export async function POST(req: Request) {
 
     const recoveryLink = data.properties.action_link;
 
+    // Redirect the recovery link to our reset password page
+    const resetPageUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://profaceapp.com'}/auth/reset-password${recoveryLink.includes('#') ? recoveryLink.substring(recoveryLink.indexOf('#')) : ''}`;
+
     // Professional email template
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://profaceapp.com';
     const emailHtml = `
@@ -140,7 +143,7 @@ export async function POST(req: Request) {
             <p>We received a request to reset the password for your ProFaceApp account. Click the button below to create a new password:</p>
 
             <div class="button-container">
-              <a href="${recoveryLink}" class="button">Reset Password</a>
+              <a href="${resetPageUrl}" class="button">Reset Password</a>
             </div>
 
             <div class="warning">
@@ -151,7 +154,7 @@ export async function POST(req: Request) {
 
             <div class="footer">
               <p>If you're having trouble clicking the button, copy and paste the URL below into your web browser:<br />
-              <span class="footer-link">${recoveryLink}</span></p>
+              <span class="footer-link">${resetPageUrl}</span></p>
 
               <p class="signature">
                 Best regards,<br />
