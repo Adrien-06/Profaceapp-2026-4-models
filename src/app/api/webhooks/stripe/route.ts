@@ -165,14 +165,24 @@ export async function POST(req: Request) {
     const billing = subscription.metadata?.billing ?? 'monthly';
     const credits = parseInt(subscription.metadata?.credits ?? '0', 10) || PLAN_CREDITS[plan] || 0;
 
-    if (credits) {
-      // For monthly subscriptions: add credits immediately on renewal
-      // For yearly subscriptions: monthly distribution is handled automatically via cron
+    if (credits && userId) {
       if (billing === 'monthly') {
+        // Monthly: add full credits immediately on each renewal
         await addCredits(userId, email, credits, plan, invoice.id, billing, subscriptionId);
       } else {
-        // Yearly: credits already set up for monthly distribution, just log the renewal
-        console.log(`[stripe-webhook] yearly subscription renewal (${subscriptionId}): monthly distribution continues`);
+        // Yearly renewal (year 2+): reset the 12-month distribution cycle
+        // and credit month 1 of the new cycle immediately
+        const admin = createServiceClient();
+        const { error: resetError } = await admin.rpc('reset_yearly_subscription_cycle', {
+          p_user_id: userId,
+          p_subscription_id: subscriptionId,
+          p_monthly_amount: credits,
+        });
+        if (resetError) {
+          console.error('[stripe-webhook] failed to reset yearly cycle:', resetError);
+        } else {
+          console.log(`[stripe-webhook] yearly subscription renewal (${subscriptionId}): new 12-month cycle started, +${credits} cr month 1`);
+        }
       }
     }
   }
