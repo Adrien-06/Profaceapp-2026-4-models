@@ -7,6 +7,20 @@ const config: NextConfig = {
       { protocol: 'https', hostname: '**.fal.media' },
       { protocol: 'https', hostname: 'fal.media' },
     ],
+    formats: ['image/webp', 'image/avif'],
+  },
+  headers: async () => {
+    return [
+      {
+        source: '/hero/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
   },
 };
 

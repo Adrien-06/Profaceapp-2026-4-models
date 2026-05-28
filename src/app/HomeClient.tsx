@@ -553,7 +553,7 @@ export default function HomeClient() {
                   onKeyDown={e => e.key === 'Enter' && setSelectedModel(model)}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img} alt={label} />
+                  <img src={img} alt={label} decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   <div className="mosaic-overlay" style={{ background: `linear-gradient(to top, ${MODELS[model].color}cc 0%, transparent 55%)` }}/>
                   <div className="mosaic-label">
                     <div>
@@ -594,7 +594,7 @@ export default function HomeClient() {
               >
                 <div className="mc-preview">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={m.previewImg} alt={m.label} />
+                  <img src={m.previewImg} alt={m.label} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   <div className="mc-overlay" style={{ background: `linear-gradient(to top, ${m.color}ee 0%, transparent 55%)` }}>
                     <span className="mc-badge">{m.tagline}</span>
                   </div>
@@ -746,7 +746,13 @@ export default function HomeClient() {
             // eslint-disable-next-line @next/next/no-img-element
             <figure key={`${galleryTab}-${i}`} className="gallery-item">
               <div className="gallery-container">
-                <img src={item.img} alt={item.cap} />
+                <img
+                  src={item.img}
+                  alt={item.cap}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
                 <div className="gallery-color-bar" style={{ background: MODELS[galleryTab].color }}/>
               </div>
               <figcaption>{item.cap}</figcaption>
