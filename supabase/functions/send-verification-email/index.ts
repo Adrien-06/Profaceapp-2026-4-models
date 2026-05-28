@@ -100,7 +100,7 @@ serve(async (req: Request) => {
               margin: 32px 0;
             }
             .button {
-              background-color: #000000;
+              background-color: #0B66E4;
               color: #ffffff;
               padding: 12px 28px;
               text-decoration: none;
@@ -111,7 +111,7 @@ serve(async (req: Request) => {
               transition: background-color 0.2s ease;
             }
             .button:hover {
-              background-color: #1a1a1a;
+              background-color: #0952B8;
             }
             .divider {
               border: none;
@@ -177,7 +177,7 @@ serve(async (req: Request) => {
       body: JSON.stringify({
         from: 'ProFaceApp <noreply@profaceapp.com>',
         to: email,
-        subject: 'Verify Your ProFaceApp Email',
+        subject: 'Welcome to ProFace app - Confirm your email address',
         html: emailHtml,
       }),
     })
