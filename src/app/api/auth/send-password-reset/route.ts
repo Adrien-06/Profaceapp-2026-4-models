@@ -146,7 +146,7 @@ export async function POST(req: Request) {
             <p>We received a request to reset the password for your ProFaceApp account. Click the button below to create a new password:</p>
 
             <div class="button-container">
-              <a href="${resetPageUrl}" class="button">Reset Password</a>
+              <a href="${resetPageUrl}" class="button" style="background-color:#0B66E4;color:#ffffff;padding:12px 28px;text-decoration:none;border-radius:6px;font-size:16px;font-weight:600;display:inline-block;">Reset Password</a>
             </div>
 
             <div class="warning">
