@@ -170,6 +170,12 @@ export default function HomeClient() {
   const [contactOpen, setContactOpen] = useState(false);
   const [contactForm, setContactForm] = useState({ name: '', email: '' });
 
+  const [forgottenOpen, setForgottenOpen] = useState(false);
+  const [forgottenEmail, setForgottenEmail] = useState('');
+  const [forgottenLoading, setForgottenLoading] = useState(false);
+  const [forgottenError, setForgottenError] = useState('');
+  const [forgottenSuccess, setForgottenSuccess] = useState(false);
+
   const [selectedModel, setSelectedModel] = useState<ModelId>('executive');
   const [galleryTab, setGalleryTab] = useState<ModelId>('realtor');
 
@@ -204,15 +210,15 @@ export default function HomeClient() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { setAuthOpen(false); setGenOpen(false); setContactOpen(false); }
+      if (e.key === 'Escape') { setAuthOpen(false); setGenOpen(false); setContactOpen(false); setForgottenOpen(false); }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = (authOpen || genOpen || contactOpen) ? 'hidden' : '';
-  }, [authOpen, genOpen, contactOpen]);
+    document.body.style.overflow = (authOpen || genOpen || contactOpen || forgottenOpen) ? 'hidden' : '';
+  }, [authOpen, genOpen, contactOpen, forgottenOpen]);
 
   const openAuth = useCallback((tab: AuthTab) => {
     setAuthTab(tab); setAuthError(''); setAuthOpen(true);
@@ -227,6 +233,32 @@ export default function HomeClient() {
     setAuthLoading(false);
     if (error) { setAuthError(error.message); return; }
     setAuthOpen(false); toast('Welcome back!'); router.refresh();
+  };
+
+  const handleForgottenPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); setForgottenLoading(true); setForgottenError(''); setForgottenSuccess(false);
+    try {
+      const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      const res = await fetch(`${appUrl}/api/auth/send-password-reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: forgottenEmail }),
+      });
+      setForgottenLoading(false);
+      if (!res.ok) {
+        const data = await res.json();
+        setForgottenError(data.error || 'Failed to send reset email');
+        return;
+      }
+      setForgottenSuccess(true);
+      setForgottenEmail('');
+      toast('Password reset email sent! Check your inbox.');
+      setTimeout(() => { setForgottenOpen(false); setForgottenSuccess(false); }, 3000);
+    } catch (err) {
+      setForgottenLoading(false);
+      const msg = err instanceof Error ? err.message : 'Something went wrong';
+      setForgottenError(msg);
+    }
   };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -876,6 +908,9 @@ export default function HomeClient() {
                 <label className="input-group"><span>Password</span><input name="password" type="password" placeholder="••••••••" required /></label>
                 {authError && <p className="auth-error">{authError}</p>}
                 <button type="submit" className="cta" disabled={authLoading}><span>{authLoading ? 'Signing in…' : 'Log in'}</span></button>
+                <p className="auth-foot">
+                  <button type="button" style={{ background:'none', border:'none', color:'var(--blue)', cursor:'pointer', fontSize:14, textDecoration:'underline' }} onClick={() => setForgottenOpen(true)}>Forgot password?</button>
+                </p>
                 <p className="auth-foot">No account? <button type="button" style={{ background:'none', border:'none', color:'var(--blue)', cursor:'pointer', fontSize:'inherit' }} onClick={() => { setAuthTab('signup'); setAuthError(''); }}>Create one</button></p>
               </form>
             )}
@@ -972,6 +1007,33 @@ export default function HomeClient() {
               <label className="input-group"><span>Email</span><input type="email" placeholder="you@company.com" value={contactForm.email} onChange={e => setContactForm(prev => ({ ...prev, email: e.target.value }))} required /></label>
               <button type="submit" className="cta"><span>Send message</span></button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── FORGOTTEN PASSWORD MODAL ── */}
+      {forgottenOpen && (
+        <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) setForgottenOpen(false); }}>
+          <div className="modal-content" role="dialog" aria-modal="true">
+            <button className="close-modal" onClick={() => setForgottenOpen(false)}>×</button>
+            {!forgottenSuccess ? (
+              <form className="auth-form active" onSubmit={handleForgottenPassword}>
+                <h3>Reset your password</h3>
+                <p className="auth-sub">Enter your email address and we'll send you a link to reset your password.</p>
+                <label className="input-group"><span>Email</span><input type="email" placeholder="name@company.com" value={forgottenEmail} onChange={e => setForgottenEmail(e.target.value)} required /></label>
+                {forgottenError && <p className="auth-error">{forgottenError}</p>}
+                <button type="submit" className="cta" disabled={forgottenLoading}><span>{forgottenLoading ? 'Sending…' : 'Send reset link'}</span></button>
+                <p className="auth-foot">
+                  <button type="button" style={{ background:'none', border:'none', color:'var(--blue)', cursor:'pointer', fontSize:'inherit' }} onClick={() => { setForgottenOpen(false); setForgottenEmail(''); setForgottenError(''); }}>Back to login</button>
+                </p>
+              </form>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                <h3 style={{ color: '#22c55e' }}>✓ Email sent!</h3>
+                <p className="auth-sub">Check your email for a password reset link. It will expire in 1 hour.</p>
+                <button type="button" className="btn-ghost-2" onClick={() => { setForgottenOpen(false); setForgottenSuccess(false); setForgottenEmail(''); }}>Close</button>
+              </div>
+            )}
           </div>
         </div>
       )}
