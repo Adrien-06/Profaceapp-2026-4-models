@@ -887,6 +887,8 @@ ul { margin:0; padding:0; list-style:none; }
   .hero-container { grid-template-columns:1fr; gap:48px; padding:60px 24px 80px; }
   .hero-visual { max-width:520px; margin:0 auto; width:100%; }
   .upload-card { max-width:100%; }
+  .picker-grid { gap: 7px; }
+  .picker-btn { padding: 8px 11px; }
   .steps, .pricing-cards, .testimonials { grid-template-columns:1fr; }
   .pcard.popular { transform:none; }
   .pcard.popular:hover { transform:translateY(-4px); }
@@ -940,6 +942,10 @@ ul { margin:0; padding:0; list-style:none; }
   .how, .pricing, .gallery, .final-cta, .models-section { padding:64px 20px; }
   .pros { padding:48px 20px 72px; }
   .footer { padding:64px 20px 28px; }
+  .picker-grid { gap: 6px; }
+  .picker-btn { padding: 8px 10px; gap: 6px; }
+  .picker-name { font-size: 11.5px; }
+  .picker-sector { font-size: 9px; }
   .footer-grid { grid-template-columns:1fr; gap:32px; }
   .footer-bottom { flex-direction:column; align-items:flex-start; }
   .dash-stats { grid-template-columns:1fr; }
