@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import Stripe from 'stripe';
 
 type SubscriptionInfo = {
   id: string;

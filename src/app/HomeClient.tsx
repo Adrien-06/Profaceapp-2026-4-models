@@ -855,7 +855,7 @@ export default function HomeClient() {
             <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path d="M3 10h12.2l-4.6-4.6 1.4-1.4L19 10l-7 7-1.4-1.4 4.6-4.6H3z"/></svg>
           </button>
 
-          {user && (
+          {currentUser && (
             <div style={{ marginTop: '40px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
               <button
                 onClick={() => window.location.href = '/account/change-plan'}

@@ -1,6 +1,8 @@
 import { Suspense } from 'react';
 import ChangePlanClient from './change-plan-client';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Change or Cancel Plan — ProFaceApp',
   description: 'Manage your subscription',
