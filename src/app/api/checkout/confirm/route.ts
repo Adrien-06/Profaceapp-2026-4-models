@@ -1,14 +1,8 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient, createServiceClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
-
-const PLAN_CREDITS: Record<string, number> = {
-  oneshot: 400,
-  pro:     1000,
-  max:     2500,
-};
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -36,33 +30,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ credited: false, reason: 'not_paid' });
   }
 
-  // Verify the session belongs to this user
-  const sessionUserId = session.metadata?.user_id;
-  if (sessionUserId && sessionUserId !== user.id) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
-
-  const plan    = session.metadata?.plan ?? 'pro';
-  const credits = parseInt(session.metadata?.credits ?? '0', 10) || PLAN_CREDITS[plan] || 0;
-
-  if (credits > 0) {
-    const admin = createServiceClient();
-    const { data: credited, error: rpcError } = await admin.rpc('credit_stripe_session', {
-      p_session_id: sessionId,
-      p_user_id:    user.id,
-      p_credits:    credits,
-      p_plan:       plan,
-    });
-
-    if (rpcError) {
-      console.error('[checkout-confirm] rpc error:', rpcError);
-    } else if (credited) {
-      console.log(`[checkout-confirm] fallback credit: +${credits} → user ${user.id} (plan: ${plan}, session: ${sessionId})`);
-    } else {
-      console.log(`[checkout-confirm] session ${sessionId} already credited by webhook`);
-    }
-  }
-
   console.log(`[checkout-confirm] payment confirmed for session ${sessionId} (user: ${user.id})`);
-  return NextResponse.json({ credited: true });
+  return NextResponse.json({ credited: false, message: 'Credits will be added when webhook is processed' });
 }
