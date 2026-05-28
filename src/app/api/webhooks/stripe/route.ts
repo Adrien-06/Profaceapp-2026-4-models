@@ -45,6 +45,8 @@ async function addCredits(
   // For yearly subscriptions: distribute credits monthly instead of all at once
   if (billing === 'yearly' && subscriptionId) {
     const monthlyAmount = Math.floor(credits / 12);
+
+    // Create the monthly credits allocation record
     const { error: insertError } = await supabase
       .from('subscription_monthly_credits')
       .upsert({
@@ -61,16 +63,15 @@ async function addCredits(
       return false;
     }
 
-    // Distribute first month credits immediately
-    const firstMonthAmount = Math.floor(credits / 12);
-    const { error: incrementError } = await supabase.rpc('increment_user_credits', {
+    // Distribute first month credits + mark month 0 as distributed
+    const { error: creditError } = await supabase.rpc('add_yearly_subscription_month_credit', {
       p_user_id: profileId,
-      amount: firstMonthAmount,
-      reason: 'yearly_subscription_month_1',
+      p_subscription_id: subscriptionId,
+      p_monthly_amount: monthlyAmount,
     });
 
-    if (incrementError) {
-      console.error('[stripe-webhook] failed to add first month credits:', incrementError);
+    if (creditError) {
+      console.error('[stripe-webhook] failed to add first month credits:', creditError);
       return false;
     }
 
