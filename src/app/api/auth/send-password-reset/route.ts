@@ -27,12 +27,16 @@ export async function POST(req: Request) {
     // Create Supabase client with service role key
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Generate password reset link using admin API
-    // Supabase will send to /auth/callback with code & type=recovery
-    // which then redirects to /auth/reset-password
+    const appBase = process.env.NEXT_PUBLIC_APP_URL || 'https://profaceapp.com';
+
+    // Generate password reset link — redirect_to points to our callback
+    // which exchanges the code for a session then routes to /auth/reset-password
     const { data, error } = await supabase.auth.admin.generateLink({
       type: 'recovery',
       email,
+      options: {
+        redirectTo: `${appBase}/auth/callback?type=recovery`,
+      },
     });
 
     if (error || !data?.properties?.action_link) {
