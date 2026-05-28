@@ -925,6 +925,7 @@ export default function HomeClient() {
             <ul>
               <li><a href="#">Privacy policy</a></li>
               <li><a href="/terms">Terms of service</a></li>
+              <li><a href="/legal-notice">Legal notice</a></li>
               <li><a href="#">Cookies</a></li>
             </ul>
           </div>
