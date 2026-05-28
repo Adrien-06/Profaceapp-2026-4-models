@@ -202,6 +202,7 @@ ul { margin:0; padding:0; list-style:none; }
   gap: 72px;
   align-items: center;
 }
+.hero-container > * { min-width: 0; }
 
 .eyebrow {
   display: inline-flex;
@@ -230,11 +231,13 @@ ul { margin:0; padding:0; list-style:none; }
 }
 
 .hero h1 {
-  font-size: clamp(36px,5.2vw,60px);
+  font-size: clamp(28px,5.2vw,60px);
   font-weight: 700;
   letter-spacing: -0.025em;
-  line-height: 1.05;
+  line-height: 1.1;
   color: var(--ink);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .hero h1::after {
   content: "";
@@ -923,11 +926,12 @@ ul { margin:0; padding:0; list-style:none; }
   .btn-primary { text-align:center; }
   .hero { padding:0; }
   .hero-container { padding:64px 20px 80px; }
-  .hero-content { width: 100%; }
-  .hero h1 { font-size:36px; }
+  .hero-content { width: 100%; min-width: 0; }
+  .hero h1 { font-size: clamp(26px, 8vw, 36px); }
+  .lede { max-width: 100%; font-size: 16px; }
   .upload-card { padding:14px; max-width: 100%; margin-top: 24px; }
   .dropzone { padding:22px 14px; }
-  .hero-visual { max-width:100%; height:auto; }
+  .hero-visual { max-width:100%; height:auto; min-width: 0; }
   .snap-after.a1 { width:220px; left:80px; }
   .snap-after.a2 { width:160px; }
   .snap-after.a3 { width:170px; }
