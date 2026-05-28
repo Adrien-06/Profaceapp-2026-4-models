@@ -27,15 +27,12 @@ export async function POST(req: Request) {
     // Create Supabase client with service role key
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const appBase = process.env.NEXT_PUBLIC_APP_URL || 'https://profaceapp.com';
-
-    // Generate password reset link with redirect_to pointing to our reset page
+    // Generate password reset link using admin API
+    // Supabase will send to /auth/callback with code & type=recovery
+    // which then redirects to /auth/reset-password
     const { data, error } = await supabase.auth.admin.generateLink({
       type: 'recovery',
       email,
-      options: {
-        redirectTo: `${appBase}/auth/reset-password`,
-      },
     });
 
     if (error || !data?.properties?.action_link) {
@@ -46,8 +43,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Send the original Supabase action_link — Supabase verifies the token
-    // then redirects to /auth/reset-password with #access_token=...&type=recovery in the hash
     const resetPageUrl = data.properties.action_link;
 
     // Professional email template
@@ -146,7 +141,7 @@ export async function POST(req: Request) {
             <p>We received a request to reset the password for your ProFaceApp account. Click the button below to create a new password:</p>
 
             <div class="button-container">
-              <a href="${resetPageUrl}" class="button" style="background-color:#0B66E4;color:#ffffff;padding:12px 28px;text-decoration:none;border-radius:6px;font-size:16px;font-weight:600;display:inline-block;">Reset Password</a>
+              <a href="${resetPageUrl}" style="background-color:#0B66E4;color:#fff;padding:12px 28px;text-decoration:none;border-radius:6px;font-size:16px;font-weight:600;display:inline-block;border:1px solid #0B66E4;">Reset Password</a>
             </div>
 
             <div class="warning">

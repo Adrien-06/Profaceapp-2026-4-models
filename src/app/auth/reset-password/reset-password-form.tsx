@@ -15,49 +15,16 @@ export default function ResetPasswordForm() {
   const supabase = createClient();
 
   useEffect(() => {
-    const handleAuth = async () => {
-      // First check if Supabase already set a session via the auth state change
-      // (happens when Supabase redirects with #access_token in hash)
-      const hash = window.location.hash.substring(1);
-
-      if (hash) {
-        const params = new URLSearchParams(hash);
-        const accessToken = params.get('access_token');
-        const type = params.get('type');
-
-        if (accessToken && (type === 'recovery' || type === 'magiclink')) {
-          const { error: sessionError } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: params.get('refresh_token') || '',
-          });
-          if (!sessionError) {
-            // Clear hash from URL without reload
-            window.history.replaceState(null, '', window.location.pathname);
-            setTokenValid(true);
-            return;
-          }
-        }
-      }
-
-      // Also listen for PASSWORD_RECOVERY auth event
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'PASSWORD_RECOVERY' && session) {
-          setTokenValid(true);
-        }
-      });
-
-      // Check existing session
+    const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         setTokenValid(true);
-      } else if (!hash) {
+      } else {
         setError('Invalid or expired reset link. Please request a new one.');
       }
-
-      return () => subscription.unsubscribe();
     };
 
-    handleAuth();
+    checkSession();
   }, [supabase]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
