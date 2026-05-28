@@ -15,7 +15,28 @@ export default function ResetPasswordForm() {
   const supabase = createClient();
 
   useEffect(() => {
-    const checkSession = async () => {
+    const handleAuth = async () => {
+      // Try to read access_token from hash (Supabase implicit flow)
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        const params = new URLSearchParams(hash);
+        const accessToken = params.get('access_token');
+        const refreshToken = params.get('refresh_token');
+        const type = params.get('type');
+        if (accessToken && type === 'recovery') {
+          const { error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken || '',
+          });
+          if (!error) {
+            window.history.replaceState(null, '', window.location.pathname);
+            setTokenValid(true);
+            return;
+          }
+        }
+      }
+
+      // Fallback: check existing session (PKCE flow via /auth/callback)
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         setTokenValid(true);
@@ -24,7 +45,7 @@ export default function ResetPasswordForm() {
       }
     };
 
-    checkSession();
+    handleAuth();
   }, [supabase]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

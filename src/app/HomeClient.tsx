@@ -187,6 +187,16 @@ export default function HomeClient() {
   }, []);
 
   useEffect(() => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      const params = new URLSearchParams(hash);
+      if (params.get('type') === 'recovery' && params.get('access_token')) {
+        router.replace('/auth/reset-password' + window.location.hash);
+      }
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (!('IntersectionObserver' in window)) return;
     const targets = document.querySelectorAll<HTMLElement>(
       '.section-head, .step, .pcard, .pro-card, .quote, .g, .pros-banner, .upload-card, .model-card'
