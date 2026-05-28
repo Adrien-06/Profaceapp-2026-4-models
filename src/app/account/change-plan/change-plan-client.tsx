@@ -135,12 +135,19 @@ export default function ChangePlanClient() {
       }}>
         <h2 style={{ color: '#22c55e', marginBottom: '16px' }}>✓ Cancellation Confirmed</h2>
         <p style={{ marginBottom: '24px', color: '#666', fontSize: '15px' }}>
-          Your {PLAN_NAMES[subscription.plan as keyof typeof PLAN_NAMES]} subscription has been cancelled.
+          Your {PLAN_NAMES[subscription.plan as keyof typeof PLAN_NAMES]} subscription has been cancelled. No refund applies.
         </p>
-        <p style={{ marginBottom: '24px', color: '#666', fontSize: '15px' }}>
-          Your {subscription.billing === 'yearly' ? 'yearly' : 'monthly'} billing will stop on <strong>{endDate.toLocaleDateString()}</strong>.
-          Until then, you'll retain full access and credits.
-        </p>
+        {subscription.billing === 'yearly' ? (
+          <p style={{ marginBottom: '24px', color: '#666', fontSize: '15px' }}>
+            Your annual billing will not renew on <strong>{endDate.toLocaleDateString()}</strong>.
+            You'll continue to receive your monthly credits every month until the end of your paid annual period.
+          </p>
+        ) : (
+          <p style={{ marginBottom: '24px', color: '#666', fontSize: '15px' }}>
+            Your monthly billing will stop on <strong>{endDate.toLocaleDateString()}</strong>.
+            You keep your current credits and full access until then.
+          </p>
+        )}
         <button
           onClick={() => router.push('/')}
           style={{
@@ -188,10 +195,17 @@ export default function ChangePlanClient() {
           </ul>
         </div>
 
-        <p style={{ fontSize: '14px', color: '#666', marginBottom: '24px' }}>
-          If you cancel your {subscription.billing === 'yearly' ? 'annual' : 'monthly'} subscription, billing will stop on {endDate.toLocaleDateString()}.
-          You'll keep your credits until then.
-        </p>
+        {subscription.billing === 'yearly' ? (
+          <p style={{ fontSize: '14px', color: '#666', marginBottom: '24px' }}>
+            If you cancel, your annual subscription will not renew on {endDate.toLocaleDateString()}.
+            There is no refund, and you'll continue to receive your monthly credits every month until the end of your paid annual period.
+          </p>
+        ) : (
+          <p style={{ fontSize: '14px', color: '#666', marginBottom: '24px' }}>
+            If you cancel, your monthly billing will stop on {endDate.toLocaleDateString()}.
+            There is no refund, and you keep your current credits and access until then.
+          </p>
+        )}
 
         {error && (
           <div style={{
