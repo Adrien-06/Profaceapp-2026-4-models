@@ -42,9 +42,10 @@ async function addCredits(
 
   const profileId: string = profiles[0].id;
 
-  // For yearly subscriptions: distribute credits monthly instead of all at once
+  // For yearly subscriptions: distribute credits monthly (12 months × monthly rate)
   if (billing === 'yearly' && subscriptionId) {
-    const monthlyAmount = Math.floor(credits / 12);
+    const monthlyAmount = credits; // Pro: 1000/month, Max: 2500/month (not divided)
+    const totalMonths = 12;
 
     // Create the monthly credits allocation record
     const { error: insertError } = await supabase
@@ -52,10 +53,10 @@ async function addCredits(
       .upsert({
         user_id: profileId,
         subscription_id: subscriptionId,
-        total_credits: credits,
+        total_credits: credits * totalMonths, // Total over 12 months
         monthly_credit_amount: monthlyAmount,
         billing_cycle_month: 0,
-        total_months: 12,
+        total_months: totalMonths,
       });
 
     if (insertError) {
@@ -75,7 +76,7 @@ async function addCredits(
       return false;
     }
 
-    console.log(`[stripe-webhook] yearly subscription setup: +${monthlyAmount}/month × 12 → user ${profileId}`);
+    console.log(`[stripe-webhook] yearly subscription setup: +${monthlyAmount} cr/month × ${totalMonths} months → user ${profileId}`);
     return true;
   }
 
