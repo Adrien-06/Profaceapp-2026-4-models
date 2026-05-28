@@ -923,7 +923,7 @@ export default function HomeClient() {
           <div>
             <h4>Legal</h4>
             <ul>
-              <li><a href="#">Privacy policy</a></li>
+              <li><a href="/privacy">Privacy policy</a></li>
               <li><a href="/terms">Terms of service</a></li>
               <li><a href="/legal-notice">Legal notice</a></li>
               <li><a href="#">Cookies</a></li>
