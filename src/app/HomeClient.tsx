@@ -901,7 +901,7 @@ export default function HomeClient() {
               <button className={`tab-btn${authTab === 'signup' ? ' active' : ''}`} onClick={() => { setAuthTab('signup'); setAuthError(''); }}>Sign up</button>
             </div>
             {authTab === 'login' && (
-              <form className="auth-form active" onSubmit={handleLogin}>
+              <form className="auth-form active" onSubmit={handleLogin} onClick={e => e.stopPropagation()}>
                 <h3>Welcome back</h3>
                 <p className="auth-sub">Enter your details to access your folders and credits.</p>
                 <label className="input-group"><span>Email</span><input name="email" type="email" placeholder="name@company.com" required /></label>
@@ -915,7 +915,7 @@ export default function HomeClient() {
               </form>
             )}
             {authTab === 'signup' && (
-              <form className="auth-form active" onSubmit={handleSignup}>
+              <form className="auth-form active" onSubmit={handleSignup} onClick={e => e.stopPropagation()}>
                 <h3>Create your account</h3>
                 <p className="auth-sub">Start generating studio-quality headshots today.</p>
                 <label className="input-group"><span>Full name</span><input name="name" type="text" placeholder="Jane Doe" required /></label>
@@ -1002,7 +1002,7 @@ export default function HomeClient() {
               } catch {
                 toast('Failed to send message');
               }
-            }}>
+            }} onClick={e => e.stopPropagation()}>
               <label className="input-group"><span>Name</span><input type="text" placeholder="Your name" value={contactForm.name} onChange={e => setContactForm(prev => ({ ...prev, name: e.target.value }))} required /></label>
               <label className="input-group"><span>Email</span><input type="email" placeholder="you@company.com" value={contactForm.email} onChange={e => setContactForm(prev => ({ ...prev, email: e.target.value }))} required /></label>
               <button type="submit" className="cta"><span>Send message</span></button>
@@ -1017,7 +1017,7 @@ export default function HomeClient() {
           <div className="modal-content" role="dialog" aria-modal="true">
             <button className="close-modal" onClick={() => setForgottenOpen(false)}>×</button>
             {!forgottenSuccess ? (
-              <form className="auth-form active" onSubmit={handleForgottenPassword}>
+              <form className="auth-form active" onSubmit={handleForgottenPassword} onClick={e => e.stopPropagation()}>
                 <h3>Reset your password</h3>
                 <p className="auth-sub">Enter your email address and we'll send you a link to reset your password.</p>
                 <label className="input-group"><span>Email</span><input type="email" placeholder="name@company.com" value={forgottenEmail} onChange={e => setForgottenEmail(e.target.value)} required /></label>
