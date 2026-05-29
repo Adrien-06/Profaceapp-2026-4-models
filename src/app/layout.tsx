@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import FacebookPixel from '@/components/FacebookPixel';
 
 export const metadata: Metadata = {
   title: 'Proface app | professional shots in seconds',
@@ -30,7 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <FacebookPixel />
+        {children}
+      </body>
     </html>
   );
 }
