@@ -227,9 +227,9 @@ export default function ChangePlanClient() {
             style={{
               flex: 1,
               padding: '12px 16px',
-              background: '#f3f4f6',
-              color: '#111',
-              border: '1px solid #ddd',
+              background: '#0B66E4',
+              color: '#fff',
+              border: 'none',
               borderRadius: '6px',
               cursor: cancelling ? 'not-allowed' : 'pointer',
               fontSize: '14px',
@@ -244,8 +244,8 @@ export default function ChangePlanClient() {
             style={{
               flex: 1,
               padding: '12px 16px',
-              background: '#ef4444',
-              color: '#fff',
+              background: '#e5e7eb',
+              color: '#111',
               border: 'none',
               borderRadius: '6px',
               cursor: cancelling ? 'not-allowed' : 'pointer',
