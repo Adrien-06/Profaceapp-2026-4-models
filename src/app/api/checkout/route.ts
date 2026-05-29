@@ -83,16 +83,27 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Failed to initialize payment' }, { status: 500 });
   }
 
+  // Extract IP address from request headers
+  const clientIp = (req.headers.get('x-forwarded-for') ||
+                    req.headers.get('x-real-ip') ||
+                    '').split(',')[0].trim();
+
   const session = await stripe.checkout.sessions.create({
         mode: isOneShot ? 'payment' : 'subscription',
         payment_method_types: ['card'],
         customer: customerId,
         line_items: [{ price: priceId, quantity: 1 }],
+        automatic_tax: { enabled: true },
+        billing_address_collection: 'auto',
+        customer_update: {
+          address: 'auto',
+        },
         metadata: {
                 plan,
                 billing,
                 user_id: user.id,
                 credits: String(CREDITS[plan] ?? 10),
+                client_ip: clientIp,
         },
         ...(isOneShot ? {} : {
           subscription_data: {
