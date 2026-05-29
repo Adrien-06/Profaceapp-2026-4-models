@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createServiceClient } from '@/lib/supabase/server';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
+
+const PLAN_CREDITS: Record<string, number> = {
+  oneshot: 400,
+  pro:     1000,
+  max:     2500,
+};
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -26,10 +32,43 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Invalid session' }, { status: 400 });
   }
 
-  if (session.payment_status !== 'paid') {
+  // subscription mode: payment_status stays 'unpaid' but status becomes 'complete'
+  // payment mode: payment_status becomes 'paid'
+  const isComplete = session.status === 'complete' || session.payment_status === 'paid';
+
+  if (!isComplete) {
     return NextResponse.json({ credited: false, reason: 'not_paid' });
   }
 
-  console.log(`[checkout-confirm] payment confirmed for session ${sessionId} (user: ${user.id})`);
-  return NextResponse.json({ credited: false, message: 'Credits will be added when webhook is processed' });
+  // Fallback: add credits directly in case webhook hasn't fired yet.
+  // credit_stripe_session is idempotent — safe to call even if webhook already ran.
+  const plan    = session.metadata?.plan ?? 'pro';
+  const credits = parseInt(session.metadata?.credits ?? '0', 10) || PLAN_CREDITS[plan] || 0;
+
+  if (!credits) {
+    console.error('[checkout-confirm] credits = 0 in metadata', sessionId);
+    return NextResponse.json({ credited: false, reason: 'no_credits' });
+  }
+
+  const admin = createServiceClient();
+  const { data: credited, error } = await admin.rpc('credit_stripe_session', {
+    p_session_id: sessionId,
+    p_user_id:    user.id,
+    p_credits:    credits,
+    p_plan:       plan,
+  });
+
+  if (error) {
+    console.error('[checkout-confirm] rpc error:', error);
+    // Session is complete — credits will arrive via webhook
+    return NextResponse.json({ credited: false, pending: true });
+  }
+
+  if (credited) {
+    console.log(`[checkout-confirm] +${credits} credits → user ${user.id} (session: ${sessionId})`);
+  } else {
+    console.log(`[checkout-confirm] session ${sessionId} already credited by webhook`);
+  }
+
+  return NextResponse.json({ credited: true });
 }

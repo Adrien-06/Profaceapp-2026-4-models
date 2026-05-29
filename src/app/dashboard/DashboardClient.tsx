@@ -25,26 +25,38 @@ export default function DashboardClient({ user, profile, packs }: Props) {
   const router = useRouter();
   const supabase = createClient();
   const [downloading, setDownloading] = useState<string | null>(null);
+  const [checkoutState, setCheckoutState] = useState<'idle' | 'confirming' | 'success' | 'pending'>('idle');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const isCheckout = params.get('checkout') === 'success';
     const sessionId = params.get('session_id');
-    if (!sessionId) return;
-    // Module-level Set persists across StrictMode unmount/remount — unlike useRef
+    if (!isCheckout || !sessionId) return;
     if (confirmedSessions.has(sessionId)) return;
     confirmedSessions.add(sessionId);
+
+    setCheckoutState('confirming');
+
     fetch(`/api/checkout/confirm?session_id=${encodeURIComponent(sessionId)}`)
       .then(r => r.json())
       .then(data => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('session_id');
+        url.searchParams.delete('checkout');
+        window.history.replaceState({}, '', url.toString());
+
         if (data.credited) {
-          const url = new URL(window.location.href);
-          url.searchParams.delete('session_id');
-          url.searchParams.delete('checkout');
-          window.history.replaceState({}, '', url.toString());
+          setCheckoutState('success');
           router.refresh();
+        } else if (data.pending) {
+          setCheckoutState('pending');
+          // Webhook will add credits — refresh after a short delay
+          setTimeout(() => router.refresh(), 4000);
+        } else {
+          setCheckoutState('idle');
         }
       })
-      .catch(() => {});
+      .catch(() => setCheckoutState('idle'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -103,6 +115,22 @@ export default function DashboardClient({ user, profile, packs }: Props) {
           </div>
         </div>
       </nav>
+
+      {(checkoutState === 'confirming' || checkoutState === 'success' || checkoutState === 'pending') && (
+        <div style={{
+          background: checkoutState === 'success' ? '#e6f4ea' : '#fff8e1',
+          borderBottom: `1px solid ${checkoutState === 'success' ? '#a8d5b5' : '#ffe082'}`,
+          padding: '12px 24px',
+          textAlign: 'center',
+          fontSize: 14,
+          fontWeight: 500,
+          color: checkoutState === 'success' ? '#2d6a4f' : '#7a5200',
+        }}>
+          {checkoutState === 'confirming' && '⏳ Payment received — confirming your credits…'}
+          {checkoutState === 'success'    && '✅ Credits added successfully! Your balance has been updated.'}
+          {checkoutState === 'pending'    && '⏳ Payment received — credits will appear in a few seconds.'}
+        </div>
+      )}
 
       <div className="dash-body">
         <div className="dash-header">
