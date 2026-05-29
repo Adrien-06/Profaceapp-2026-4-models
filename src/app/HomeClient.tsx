@@ -158,7 +158,7 @@ export default function HomeClient() {
   const [genPhotos, setGenPhotos] = useState<string[]>([]);
   const [genError, setGenError] = useState('');
 
-  const [billing, setBilling] = useState<Billing>('monthly');
+  const [billing, setBilling] = useState<Billing>('yearly');
   const [files, setFiles] = useState<File[]>([]);
   const [isDrag, setIsDrag] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
