@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import FacebookPixel from '@/components/FacebookPixel';
+import TikTokPixel from '@/components/TikTokPixel';
 
 export const metadata: Metadata = {
   title: 'Proface app | professional shots in seconds',
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <FacebookPixel />
+        <TikTokPixel />
         {children}
       </body>
     </html>
