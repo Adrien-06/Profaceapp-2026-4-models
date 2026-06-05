@@ -624,28 +624,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ── */}
-      <section className="how" id="how">
-        <div className="section-head">
-          <span className="kicker">How it works</span>
-          <h2>Studio results in three steps.</h2>
-          <p>A real photoshoot takes a day. We take ninety seconds.</p>
-        </div>
-        <div className="steps">
-          {[
-            { n: '01', title: 'Choose your model', body: 'Pick from 4 AI styles: The Realtor, The Executive, The Analyst or The Innovator. Each generates a completely different professional look.' },
-            { n: '02', title: 'Upload selfies',    body: '1–5 well-lit photos from different angles. Phone selfies work great.' },
-            { n: '03', title: 'Download your shot', body: 'Your polished headshot delivered to your dashboard in 90 seconds. Download instantly.' },
-          ].map(s => (
-            <div key={s.n} className="step">
-              <div className="step-num">{s.n}</div>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── PRICING ── */}
       <section className="pricing" id="pricing">
         <svg className="section-wave top" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
@@ -710,12 +688,34 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* ── HOW IT WORKS ── */}
+      <section className="how" id="how">
+        <div className="section-head">
+          <span className="kicker">How it works</span>
+          <h2>Studio results in three steps.</h2>
+          <p>A real photoshoot takes a day. We take ninety seconds.</p>
+        </div>
+        <div className="steps">
+          {[
+            { n: '01', title: 'Choose your model', body: 'Pick from 4 AI styles: The Realtor, The Executive, The Analyst or The Innovator. Each generates a completely different professional look.' },
+            { n: '02', title: 'Upload selfies',    body: '1–5 well-lit photos from different angles. Phone selfies work great.' },
+            { n: '03', title: 'Download your shot', body: 'Your polished headshot delivered to your dashboard in 90 seconds. Download instantly.' },
+          ].map(s => (
+            <div key={s.n} className="step">
+              <div className="step-num">{s.n}</div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── GALLERY ── */}
       <section className="gallery" id="gallery">
         <div className="section-head">
           <span className="kicker">Gallery</span>
           <h2>Real selfies. Four distinct styles.</h2>
-          <p>Browse examples from each AI model — 5 portraits per style.</p>
+          <p>Browse examples from each AI model — 4 portraits per style.</p>
         </div>
 
         <div className="gallery-tabs">
