@@ -720,9 +720,9 @@ export default function HomeClient() {
           {/* Testimonial quotes */}
           <div className="ugc-quotes">
             {[
-              { q: '"I outfitted all 24 agents in one afternoon with The Realtor model. Every agent looks warm and trustworthy. We saved $6,000 this year."', name: 'Sophie M.', role: 'Real Estate Agency Manager', av: 'qav1' },
-              { q: '"The Executive model is incredible — courthouse-ready portraits for our partners in two minutes instead of a half-day studio session."', name: 'James T.', role: 'Partner, Law Firm', av: 'qav2' },
-              { q: '"The Innovator model perfectly captures our startup energy. Our About page finally looks as dynamic as our product."', name: 'Daniel R.', role: 'CEO & Founder', av: 'qav3' },
+              { q: '"I uploaded 3 selfies on my lunch break and had a LinkedIn-ready headshot by the time I got back to my desk. My profile views doubled in a week."', name: 'Mei L.', role: 'Product Manager, SaaS', av: 'qav1' },
+              { q: '"I was skeptical but the results blew me away — professional studio quality in literally 90 seconds. Best $29 I\'ve spent on my career."', name: 'Tom R.', role: 'Sales Executive', av: 'qav2' },
+              { q: '"We onboarded 18 new hires last quarter and had matching professional headshots for everyone by end of day. No scheduling, no photographer, no hassle."', name: 'Aisha K.', role: 'Head of People & Culture', av: 'qav3' },
             ].map(t => (
               <blockquote key={t.name} className="ugc-quote">
                 <p>{t.q}</p>
