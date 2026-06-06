@@ -691,6 +691,51 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* ── SOCIAL PROOF / UGC ── */}
+      <section className="ugc-proof" id="ugc-proof">
+        <div className="section-head">
+          <span className="kicker">Real users, real results</span>
+          <h2>They tried it. They loved it.</h2>
+          <p>Join thousands of professionals who already upgraded their headshot.</p>
+        </div>
+
+        <div className="ugc-layout">
+          {/* UGC video cards */}
+          <div className="ugc-videos">
+            {[
+              { src: '/ugc/ugc-asian-woman.jpg',  alt: 'Asian woman showing ProFaceApp on her phone' },
+              { src: '/ugc/ugc-white-man.jpg',    alt: 'Man showing ProFaceApp results on his phone' },
+              { src: '/ugc/ugc-black-woman.jpg',  alt: 'Woman showing ProFaceApp team headshots on her phone' },
+            ].map(v => (
+              <div key={v.src} className="ugc-card">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={v.src} alt={v.alt} loading="lazy" decoding="async" />
+                <div className="ugc-play-overlay">
+                  <svg viewBox="0 0 48 48" width="48" height="48" fill="white"><circle cx="24" cy="24" r="24" fill="rgba(0,0,0,.35)"/><path d="M19 15l16 9-16 9V15z"/></svg>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Testimonial quotes */}
+          <div className="ugc-quotes">
+            {[
+              { q: '"I uploaded 3 selfies on my lunch break and had a LinkedIn-ready headshot by the time I got back to my desk. My profile views doubled in a week."', name: 'Mei L.', role: 'Product Manager, SaaS', av: 'qav1' },
+              { q: '"I was skeptical but the results blew me away — professional studio quality in literally 90 seconds. Best $29 I\'ve spent on my career."', name: 'Tom R.', role: 'Sales Executive', av: 'qav2' },
+              { q: '"We onboarded 18 new hires last quarter and had matching professional headshots for everyone by end of day. No scheduling, no photographer, no hassle."', name: 'Aisha K.', role: 'Head of People & Culture', av: 'qav3' },
+            ].map(t => (
+              <blockquote key={t.name} className="ugc-quote">
+                <p>{t.q}</p>
+                <footer>
+                  <span className={`qav ${t.av}`}/>
+                  <span><strong>{t.name}</strong> · {t.role}</span>
+                </footer>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── GALLERY ── */}
       <section className="gallery" id="gallery">
         <div className="section-head">
