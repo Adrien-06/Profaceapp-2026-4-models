@@ -37,6 +37,9 @@ serve(async (req: Request) => {
       type: 'signup',
       email,
       password: undefined,
+      options: {
+        redirectTo: `${APP_URL}/auth/callback?type=signup`,
+      },
     })
 
     if (error || !data?.properties?.action_link) {
