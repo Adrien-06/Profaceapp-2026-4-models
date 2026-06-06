@@ -613,7 +613,7 @@ export default function HomeClient() {
         <div className="section-head">
           <span className="kicker">Pricing</span>
           <h2>Simple, transparent pricing.</h2>
-          <p>Each generation costs <strong>10 credits</strong> and produces 1 professional photo in any of the 4 models. Cancel anytime.</p>
+          <p>Need it once? Go One-shot. Need it every month? Subscribe. Either way — all 4 styles included, no hidden fees, cancel anytime.</p>
           <div className="billing-toggle">
             <button className={`bt-opt${billing === 'monthly' ? ' active' : ''}`} onClick={() => setBilling('monthly')}>Monthly</button>
             <button className={`bt-opt${billing === 'yearly' ? ' active' : ''}`} onClick={() => setBilling('yearly')}>
