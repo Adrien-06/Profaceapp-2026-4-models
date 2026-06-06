@@ -703,9 +703,9 @@ export default function HomeClient() {
           {/* UGC video cards */}
           <div className="ugc-videos">
             {[
-              { src: '/ugc/ugc-asian-woman.jpg',  alt: 'Asian woman showing ProFaceApp on her phone' },
-              { src: '/ugc/ugc-white-man.jpg',    alt: 'Man showing ProFaceApp results on his phone' },
-              { src: '/ugc/ugc-black-woman.jpg',  alt: 'Woman showing ProFaceApp team headshots on her phone' },
+              { src: '/hero/ugc-asian-woman.jpg.png',  alt: 'Asian woman showing ProFaceApp on her phone' },
+              { src: '/hero/ugc-white-man.jpg.png',    alt: 'Man showing ProFaceApp results on his phone' },
+              { src: '/hero/ugc-black-woman.jpg.png',  alt: 'Woman showing ProFaceApp team headshots on her phone' },
             ].map(v => (
               <div key={v.src} className="ugc-card">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
