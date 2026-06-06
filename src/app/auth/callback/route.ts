@@ -13,10 +13,14 @@ export async function GET(request: Request) {
     if (!error && data.user) {
       // Mark email as confirmed for signup flow
       if (type === 'signup') {
-        const adminClient = createServiceClient();
-        await adminClient.auth.admin.updateUserById(data.user.id, {
-          email_confirmed_at: new Date().toISOString(),
-        });
+        try {
+          const adminClient = createServiceClient();
+          await adminClient.auth.admin.updateUserById(data.user.id, {
+            email_confirmed_at: new Date().toISOString(),
+          });
+        } catch (err) {
+          console.error('Failed to confirm email:', err);
+        }
       }
       // If this is a password recovery, redirect to reset password page
       if (type === 'recovery') {
