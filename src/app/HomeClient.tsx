@@ -278,38 +278,19 @@ export default function HomeClient() {
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
+    const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: name },
+        emailRedirectTo: `${appUrl}/auth/callback?type=signup`,
       }
     });
 
     setAuthLoading(false);
     if (error) { setAuthError(error.message); return; }
-
-    // Send verification email via Edge Function
-    if (data.user?.id) {
-      try {
-        const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
-        const emailResponse = await fetch(`${appUrl}/api/auth/send-verification`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            user_id: data.user.id,
-            full_name: name,
-          }),
-        });
-        if (!emailResponse.ok) {
-          const errorData = await emailResponse.text();
-          console.error('Verification email error:', emailResponse.status, errorData);
-        }
-      } catch (err) {
-        console.error('Failed to send verification email:', err);
-      }
-    }
 
     setAuthOpen(false);
     toast('Account created! Please check your email to verify your address.');
