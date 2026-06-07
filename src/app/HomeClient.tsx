@@ -289,12 +289,23 @@ export default function HomeClient() {
       }
     });
 
-    setAuthLoading(false);
-    if (error) { setAuthError(error.message); return; }
+    if (error) { setAuthLoading(false); setAuthError(error.message); return; }
+
+    // Auto-confirm email so user can sign in immediately
+    if (data.user) {
+      await fetch('/api/auth/auto-confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: data.user.id }),
+      });
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      setAuthLoading(false);
+      if (signInError) { setAuthError(signInError.message); return; }
+    }
 
     setAuthOpen(false);
-    toast('Account created! Please check your email to verify your address.');
-    router.refresh();
+    router.push('/dashboard?new=1');
   };
 
   const addFiles = (incoming: FileList | null) => {

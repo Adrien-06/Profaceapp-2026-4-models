@@ -26,9 +26,24 @@ export default function DashboardClient({ user, profile, packs }: Props) {
   const supabase = createClient();
   const [downloading, setDownloading] = useState<string | null>(null);
   const [checkoutState, setCheckoutState] = useState<'idle' | 'confirming' | 'success' | 'pending'>('idle');
+  const [showEmailBanner, setShowEmailBanner] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    if (params.get('new') === '1') {
+      const dismissed = localStorage.getItem(`email_banner_dismissed_${user.id}`);
+      if (!dismissed) setShowEmailBanner(true);
+      // Remove ?new=1 from URL without reload
+      const url = new URL(window.location.href);
+      url.searchParams.delete('new');
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, [user.id]);
+
+  const dismissEmailBanner = () => {
+    localStorage.setItem(`email_banner_dismissed_${user.id}`, '1');
+    setShowEmailBanner(false);
+  };
     const isCheckout = params.get('checkout') === 'success';
     const sessionId = params.get('session_id');
     if (!isCheckout || !sessionId) return;
@@ -92,6 +107,25 @@ export default function DashboardClient({ user, profile, packs }: Props) {
 
   return (
     <div className="dash-layout">
+      {showEmailBanner && (
+        <div style={{
+          background: '#fffbeb', borderBottom: '1px solid #fde68a',
+          padding: '12px 24px', display: 'flex', alignItems: 'center',
+          justifyContent: 'center', gap: 12, fontSize: 14, color: '#92400e',
+        }}>
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" style={{ flexShrink: 0 }}>
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+          </svg>
+          <span>
+            <strong>One last step:</strong> check your inbox and click the link to verify <strong>{user.email}</strong> and secure your account.
+          </span>
+          <button onClick={dismissEmailBanner} style={{
+            marginLeft: 'auto', background: 'none', border: 'none',
+            cursor: 'pointer', color: '#92400e', fontSize: 18, lineHeight: 1, padding: '0 4px',
+          }} aria-label="Dismiss">×</button>
+        </div>
+      )}
       <nav className="dash-nav">
         <div className="dash-nav-inner">
           <a href="/" className="logo">
