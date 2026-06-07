@@ -278,31 +278,19 @@ export default function HomeClient() {
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
 
-    const appUrl = typeof window !== 'undefined' ? window.location.origin : '';
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name },
-        emailRedirectTo: `${appUrl}/auth/callback?type=signup`,
-      }
+    // Create user server-side with email already confirmed
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
     });
+    const json = await res.json();
+    if (!res.ok) { setAuthLoading(false); setAuthError(json.error ?? 'Registration failed'); return; }
 
-    if (error) { setAuthLoading(false); setAuthError(error.message); return; }
-
-    // Auto-confirm email so user can sign in immediately
-    if (data.user) {
-      await fetch('/api/auth/auto-confirm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: data.user.id }),
-      });
-
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      setAuthLoading(false);
-      if (signInError) { setAuthError(signInError.message); return; }
-    }
+    // Email is confirmed — sign in immediately
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    setAuthLoading(false);
+    if (signInError) { setAuthError(signInError.message); return; }
 
     setAuthOpen(false);
     router.push('/dashboard?new=1');
