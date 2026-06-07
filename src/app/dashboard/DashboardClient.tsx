@@ -44,6 +44,9 @@ export default function DashboardClient({ user, profile, packs }: Props) {
     localStorage.setItem(`email_banner_dismissed_${user.id}`, '1');
     setShowEmailBanner(false);
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
     const isCheckout = params.get('checkout') === 'success';
     const sessionId = params.get('session_id');
     if (!isCheckout || !sessionId) return;
@@ -65,7 +68,6 @@ export default function DashboardClient({ user, profile, packs }: Props) {
           router.refresh();
         } else if (data.pending) {
           setCheckoutState('pending');
-          // Webhook will add credits — refresh after a short delay
           setTimeout(() => router.refresh(), 4000);
         } else {
           setCheckoutState('idle');
