@@ -3,20 +3,43 @@ import './globals.css';
 import FacebookPixel from '@/components/FacebookPixel';
 
 export const metadata: Metadata = {
-  title: 'Proface app | professional shots in seconds',
-  description: 'Generate studio-quality AI professional headshots in seconds. Upload selfies, get 1 polished portrait for LinkedIn, resumes & team pages.',
+  title: 'AI Headshot Generator: Studio Photos in 90 Seconds | ProFaceApp',
+  description: 'Generate pro AI headshots in 90 seconds. 4 AI models, free trial. No photographer needed—perfect for LinkedIn, resumes & corporate sites.',
+  keywords: ['ai headshot generator', 'professional ai headshots', 'linkedin headshot', 'ai photo generator'],
   icons: {
     icon: '/favicon.png',
     shortcut: '/favicon.png',
     apple: '/favicon.png',
   },
   openGraph: {
-    title: 'ProFaceApp — AI Professional Headshots',
-    description: 'Studio-quality AI headshots in 90 seconds.',
+    title: 'Professional AI Headshots for LinkedIn & Business | ProFaceApp',
+    description: 'Create stunning AI headshots with 4 AI models in 90 seconds. Used by 50k+ professionals.',
     url: 'https://profaceapp.com',
     siteName: 'ProFaceApp',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: 'https://profaceapp.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ProFaceApp - AI Headshot Generator',
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: 'https://profaceapp.com',
   },
 };
 
@@ -24,6 +47,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-US">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'ProFaceApp',
+              url: 'https://profaceapp.com',
+              logo: 'https://profaceapp.com/logo.png',
+              description: 'AI Headshot Generator - Professional photos in 90 seconds',
+              sameAs: [
+                'https://twitter.com/profaceapp',
+                'https://linkedin.com/company/profaceapp',
+              ],
+            }),
+          }}
+        />
         <FacebookPixel />
         <script
           dangerouslySetInnerHTML={{

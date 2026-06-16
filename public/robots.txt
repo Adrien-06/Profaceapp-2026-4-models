@@ -1,0 +1,23 @@
+# ProFaceApp robots.txt
+# Allow all public content, block private routes
+
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /account
+Disallow: /account/*
+Disallow: /api
+Disallow: /api/*
+Disallow: /auth
+Disallow: /auth/*
+Disallow: /?auth=*
+Disallow: /?code=*
+Disallow: /?redirect=*
+Disallow: *?*=
+
+# Crawl delay
+Crawl-delay: 1
+
+# Sitemap reference
+Sitemap: https://profaceapp.com/sitemap.xml
