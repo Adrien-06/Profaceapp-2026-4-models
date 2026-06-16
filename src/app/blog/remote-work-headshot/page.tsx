@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     type: 'article',
     publishedTime: new Date('2026-06-16').toISOString(),
   },
-  canonical: 'https://profaceapp.com/blog/remote-work-headshot',
+  alternates: {
+    canonical: 'https://profaceapp.com/blog/remote-work-headshot',
+  },
 };
 
 export default function RemoteWorkHeadshotBlog() {

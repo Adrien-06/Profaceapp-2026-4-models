@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     type: 'article',
     publishedTime: new Date('2026-06-16').toISOString(),
   },
-  canonical: 'https://profaceapp.com/blog/what-is-ai',
+  alternates: {
+    canonical: 'https://profaceapp.com/blog/what-is-ai',
+  },
 };
 
 export default function WhatIsAIBlog() {

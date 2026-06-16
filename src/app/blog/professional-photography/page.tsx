@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     type: 'article',
     publishedTime: new Date('2026-06-16').toISOString(),
   },
-  canonical: 'https://profaceapp.com/blog/professional-photography',
+  alternates: {
+    canonical: 'https://profaceapp.com/blog/professional-photography',
+  },
 };
 
 export default function ProfessionalPhotographyBlog() {

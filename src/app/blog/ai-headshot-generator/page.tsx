@@ -11,7 +11,9 @@ export const metadata: Metadata = {
     publishedTime: new Date('2026-06-16').toISOString(),
     authors: ['ProFaceApp'],
   },
-  canonical: 'https://profaceapp.com/blog/ai-headshot-generator',
+  alternates: {
+    canonical: 'https://profaceapp.com/blog/ai-headshot-generator',
+  },
 };
 
 export default function AIHeadshotGeneratorBlog() {

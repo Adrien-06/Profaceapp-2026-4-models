@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     type: 'article',
     publishedTime: new Date('2026-06-16').toISOString(),
   },
-  canonical: 'https://profaceapp.com/blog/ai-drawing',
+  alternates: {
+    canonical: 'https://profaceapp.com/blog/ai-drawing',
+  },
 };
 
 export default function AIDrawingBlog() {

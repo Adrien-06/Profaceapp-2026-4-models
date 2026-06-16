@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     type: 'article',
     publishedTime: new Date('2026-06-16').toISOString(),
   },
-  canonical: 'https://profaceapp.com/blog/linkedin-headshot',
+  alternates: {
+    canonical: 'https://profaceapp.com/blog/linkedin-headshot',
+  },
 };
 
 export default function LinkedInHeadshotBlog() {
