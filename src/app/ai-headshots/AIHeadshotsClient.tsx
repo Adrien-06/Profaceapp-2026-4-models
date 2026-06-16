@@ -116,6 +116,19 @@ export default function AIHeadshotsClient() {
     <>
       <SiteNav />
 
+      {/* ── FREE CREDIT BANNER ── */}
+      <div style={{
+        background: 'linear-gradient(135deg, #0a66c2 0%, #0B4FA7 100%)',
+        color: '#fff',
+        padding: '16px 28px',
+        textAlign: 'center',
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+      }}>
+        <p style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>
+          🎁 <strong>Sign up free</strong> and get <strong>1 professional AI headshot</strong> included
+        </p>
+      </div>
+
       {/* ── HERO ── */}
       <section className="hero">
         <div className="hero-bg" aria-hidden="true">
