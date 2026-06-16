@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import SiteNav from '@/components/SiteNav';
+import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
   title: 'AI Art Generator: Create Digital Art and Professional Images | ProFaceApp',
@@ -17,7 +20,9 @@ export const metadata: Metadata = {
 
 export default function AIArtGeneratorBlog() {
   return (
-    <article className="blog-article">
+    <>
+      <SiteNav />
+      <article className="blog-article">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
@@ -27,15 +32,34 @@ export default function AIArtGeneratorBlog() {
         author: { '@type': 'Organization', name: 'ProFaceApp' },
       }) }} />
 
-      <div className="blog-header">
-        <div className="blog-container">
-          <h1>AI Art Generator: Create Digital Art and Professional Images</h1>
-          <p className="blog-excerpt">Discover how AI art generators work and how they're transforming creative work. From professional headshots to artistic creations.</p>
-          <time dateTime="2026-06-16">June 16, 2026</time>
-        </div>
+      <section style={{ padding: '80px 28px', background: 'linear-gradient(135deg, #eef5ff 0%, #f4f6f9 100%)', borderBottom: '1px solid #e3e6ea' }}>
+          <div style={{ maxWidth: 960, margin: '0 auto' }}>
+            <span className="kicker">AI Tools</span>
+            <h1 style={{ fontSize: 'clamp(36px, 4vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', margin: '12px 0 20px', color: '#0f1419' }}>
+              AI Art Generator: Create Digital Art and Professional Images
+            </h1>
+            <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: '#57606e', lineHeight: 1.6, maxWidth: 800, margin: '20px 0 32px' }}>
+              Discover how AI art generators work and how they're transforming creative work. From professional headshots to artistic creations.
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              <Link href="/?auth=signup" className="cta" style={{ maxWidth: 280 }}>
+                <span>Generate Your Headshot</span>
+                <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
+                  <path d="M3 10h12.2l-4.6-4.6 1.4-1.4L19 10l-7 7-1.4-1.4 4.6-4.6H3z"/>
+                </svg>
+              </Link>
+              <Link href="/#pricing" className="btn-ghost-2" style={{ display: 'inline-flex', alignItems: 'center', padding: '14px 22px', borderRadius: 14, textDecoration: 'none', fontWeight: 600, fontSize: 15, border: '1.5px solid #e3e6ea', color: '#0f1419' }}>
+                See pricing
+              </Link>
+            </div>
+            <div style={{ marginTop: 32, fontSize: 13, color: '#57606e' }}>
+              <time dateTime="2026-06-16">Published June 16, 2026</time>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div className="blog-container">
+      <section style={{ padding: "60px 28px" }}><div style={{ maxWidth: 960, margin: "0 auto" }}>
         <section>
           <h2>What is an AI Art Generator?</h2>
           <p>An AI art generator is a machine learning tool that creates visual content based on input data. AI art generators can transform photos into different styles, create illustrations from descriptions, or generate entirely new artwork based on parameters you provide.</p>
@@ -197,7 +221,9 @@ export default function AIArtGeneratorBlog() {
           <p>AI art generators are democratizing visual content creation. Whether for professional headshots, marketing materials, or creative projects, AI tools make high-quality visual content accessible to everyone. As the technology improves, AI art generators will become increasingly valuable tools in both professional and creative contexts.</p>
           <a href="/ai-headshots" className="btn-primary">Generate Your Professional Art Today</a>
         </section>
-      </div>
-    </article>
+      </div></section>
+      </article>
+      <SiteFooter />
+    </>
   );
 }

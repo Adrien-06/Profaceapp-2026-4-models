@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import SiteNav from '@/components/SiteNav';
+import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
   title: 'Executive Headshot Guide: Leadership Portraits for C-Suite | ProFaceApp',
@@ -17,7 +20,9 @@ export const metadata: Metadata = {
 
 export default function ExecutiveHeadshotBlog() {
   return (
-    <article className="blog-article">
+    <>
+      <SiteNav />
+      <article className="blog-article">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
@@ -27,15 +32,34 @@ export default function ExecutiveHeadshotBlog() {
         author: { '@type': 'Organization', name: 'ProFaceApp' },
       }) }} />
 
-      <div className="blog-header">
-        <div className="blog-container">
-          <h1>Executive Headshot Guide: Leadership Portraits for C-Suite</h1>
-          <p className="blog-excerpt">Executive headshots project authority, confidence, and strategic thinking. Learn how to get professional leadership portraits that command respect.</p>
-          <time dateTime="2026-06-16">June 16, 2026</time>
-        </div>
+      <section style={{ padding: '80px 28px', background: 'linear-gradient(135deg, #eef5ff 0%, #f4f6f9 100%)', borderBottom: '1px solid #e3e6ea' }}>
+          <div style={{ maxWidth: 960, margin: '0 auto' }}>
+            <span className="kicker">Professional Photos</span>
+            <h1 style={{ fontSize: 'clamp(36px, 4vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', margin: '12px 0 20px', color: '#0f1419' }}>
+              Executive Headshot Guide: Leadership Portraits for C-Suite
+            </h1>
+            <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: '#57606e', lineHeight: 1.6, maxWidth: 800, margin: '20px 0 32px' }}>
+              Executive headshots project authority, confidence, and strategic thinking. Learn how to get professional leadership portraits that command respect.
+            </p>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              <Link href="/?auth=signup" className="cta" style={{ maxWidth: 280 }}>
+                <span>Generate Your Headshot</span>
+                <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
+                  <path d="M3 10h12.2l-4.6-4.6 1.4-1.4L19 10l-7 7-1.4-1.4 4.6-4.6H3z"/>
+                </svg>
+              </Link>
+              <Link href="/#pricing" className="btn-ghost-2" style={{ display: 'inline-flex', alignItems: 'center', padding: '14px 22px', borderRadius: 14, textDecoration: 'none', fontWeight: 600, fontSize: 15, border: '1.5px solid #e3e6ea', color: '#0f1419' }}>
+                See pricing
+              </Link>
+            </div>
+            <div style={{ marginTop: 32, fontSize: 13, color: '#57606e' }}>
+              <time dateTime="2026-06-16">Published June 16, 2026</time>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div className="blog-container">
+      <section style={{ padding: "60px 28px" }}><div style={{ maxWidth: 960, margin: "0 auto" }}>
         <section>
           <h2>Why Executives Need Professional Headshots</h2>
           <p>Executive headshots are critical for leadership branding. They appear on corporate websites, board profiles, annual reports, and investor materials. An executive headshot should project confidence, competence, and strategic leadership.</p>
@@ -217,7 +241,9 @@ export default function ExecutiveHeadshotBlog() {
           <p>Your executive headshot is a critical component of your leadership brand. It appears in important places and influences how stakeholders perceive your leadership. Whether you choose premium photography or AI-generated headshots, invest in a professional portrait that projects the authority and confidence required for executive leadership.</p>
           <a href="/ai-headshots" className="btn-primary">Get Your Executive Headshot Today</a>
         </section>
-      </div>
-    </article>
+      </div></section>
+      </article>
+      <SiteFooter />
+    </>
   );
 }
