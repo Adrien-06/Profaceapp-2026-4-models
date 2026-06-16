@@ -59,7 +59,7 @@ export default function AIHeadshotGeneratorBlog() {
             </div>
           </div>
         </section>
-      </div>
+
 
       <section style={{ padding: "60px 28px" }}><div style={{ maxWidth: 960, margin: "0 auto" }}>
         <section>
