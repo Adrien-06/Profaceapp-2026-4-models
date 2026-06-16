@@ -145,7 +145,7 @@ export default function AIHeadshotsClient() {
 
             <div style={{ display: 'flex', gap: 14, marginTop: 36, flexWrap: 'wrap' }}>
               <Link href="/?auth=signup" className="cta" style={{ maxWidth: 260 }}>
-                <span>Generate free headshot</span>
+                <span>Get 1 Free Photo</span>
                 <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor">
                   <path d="M3 10h12.2l-4.6-4.6 1.4-1.4L19 10l-7 7-1.4-1.4 4.6-4.6H3z"/>
                 </svg>
@@ -322,7 +322,7 @@ export default function AIHeadshotsClient() {
         ))}
         <div style={{ textAlign: 'center', marginTop: 16, paddingBottom: 40 }}>
           <Link href="/?auth=signup" className="cta" style={{ maxWidth: 320, margin: '0 auto' }}>
-            <span>Generate your AI headshot now</span>
+            <span>Get Your Free Photo Now</span>
             <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path d="M3 10h12.2l-4.6-4.6 1.4-1.4L19 10l-7 7-1.4-1.4 4.6-4.6H3z"/></svg>
           </Link>
         </div>
@@ -336,7 +336,7 @@ export default function AIHeadshotsClient() {
         <div className="section-head">
           <span className="kicker">Pricing</span>
           <h2>Simple, transparent pricing.</h2>
-          <p>Each generation costs <strong>10 credits</strong> and produces 1 professional AI headshot. Cancel anytime.</p>
+          <p><strong>Free signup includes 10 credits</strong> (1 free professional AI headshot). Each additional generation costs 10 credits. Cancel anytime.</p>
         </div>
         <div className="pricing-cards">
           {[
