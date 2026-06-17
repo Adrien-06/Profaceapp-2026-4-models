@@ -421,9 +421,30 @@ export default function HomeClient() {
             <h1>Generate professional shots in seconds.</h1>
             <p className="lede">
               Upload a selfie and choose your style. <strong>Four distinct AI models</strong> for
-              Real Estate, Legal, Finance, and Startups — studio-quality results without the studio.{' '}
-              <strong>Sign up free and get your first professional headshot included.</strong>
+              Real Estate, Legal, Finance, and Startups — studio-quality results without the studio.
             </p>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '4px 0 20px', flexWrap: 'wrap' }}>
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'rgba(34,197,94,.1)', border: '1.5px solid rgba(34,197,94,.3)',
+                borderRadius: 999, padding: '8px 16px', fontSize: 14, fontWeight: 600, color: '#15803d',
+              }}>
+                <span style={{ width: 8, height: 8, background: '#22c55e', borderRadius: '50%', flexShrink: 0 }}/>
+                Free to start — 1 professional headshot included
+              </span>
+              <button
+                type="button"
+                onClick={() => openAuth('signup')}
+                style={{
+                  background: 'none', border: '1.5px solid #0a66c2', borderRadius: 999,
+                  padding: '8px 16px', fontSize: 14, fontWeight: 600, color: '#0a66c2',
+                  cursor: 'pointer', whiteSpace: 'nowrap',
+                }}
+              >
+                Create free account →
+              </button>
+            </div>
 
             <div className="upload-card">
               {/* Model Picker */}
@@ -700,23 +721,6 @@ export default function HomeClient() {
         </div>
 
         <div className="ugc-layout">
-          {/* UGC video cards */}
-          <div className="ugc-videos">
-            {[
-              { src: '/hero/ugc-asian-woman.jpg.png',  alt: 'Asian woman showing ProFaceApp on her phone' },
-              { src: '/hero/ugc-white-man.jpg.png',    alt: 'Man showing ProFaceApp results on his phone' },
-              { src: '/hero/ugc-black-woman-v2.jpg.png',  alt: 'Woman showing ProFaceApp team headshots on her phone' },
-            ].map(v => (
-              <div key={v.src} className="ugc-card">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={v.src} alt={v.alt} loading="lazy" decoding="async" />
-                <div className="ugc-play-overlay">
-                  <svg viewBox="0 0 48 48" width="48" height="48" fill="white"><circle cx="24" cy="24" r="24" fill="rgba(0,0,0,.35)"/><path d="M19 15l16 9-16 9V15z"/></svg>
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* Testimonial quotes */}
           <div className="ugc-quotes">
             {[
