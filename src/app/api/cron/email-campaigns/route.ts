@@ -1,3 +1,4 @@
+// Email automation cron job - Production ready
 import { NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 
