@@ -416,12 +416,13 @@ export default function HomeClient() {
           <div className="hero-content">
             <span className="eyebrow">
               <span className="dot"/>
-              4 AI Models · Studio-grade in 90 seconds
+              1 free photo on sign up · 4 AI Models · 90 seconds
             </span>
             <h1>Generate professional shots in seconds.</h1>
             <p className="lede">
               Upload a selfie and choose your style. <strong>Four distinct AI models</strong> for
-              Real Estate, Legal, Finance, and Startups — studio-quality results without the studio.
+              Real Estate, Legal, Finance, and Startups — studio-quality results without the studio.{' '}
+              <strong>Sign up free and get your first professional headshot included.</strong>
             </p>
 
             <div className="upload-card">
@@ -612,7 +613,7 @@ export default function HomeClient() {
         <div className="section-head">
           <span className="kicker">Pricing</span>
           <h2>Simple, transparent pricing.</h2>
-          <p>Need it once? Go One-shot. Need it every month? Subscribe. Either way — all 4 styles included, no hidden fees, cancel anytime.</p>
+          <p><strong>Sign up free</strong> and get 1 professional AI headshot included — no credit card required. Need more? Plans start at $29 one-time, all 4 models, cancel anytime.</p>
           <div className="billing-toggle">
             <button className={`bt-opt${billing === 'monthly' ? ' active' : ''}`} onClick={() => setBilling('monthly')}>Monthly</button>
             <button className={`bt-opt${billing === 'yearly' ? ' active' : ''}`} onClick={() => setBilling('yearly')}>

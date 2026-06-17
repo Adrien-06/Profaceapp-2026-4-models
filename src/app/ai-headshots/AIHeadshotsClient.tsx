@@ -116,19 +116,6 @@ export default function AIHeadshotsClient() {
     <>
       <SiteNav />
 
-      {/* ── FREE CREDIT BANNER ── */}
-      <div style={{
-        background: 'linear-gradient(135deg, #0a66c2 0%, #0B4FA7 100%)',
-        color: '#fff',
-        padding: '16px 28px',
-        textAlign: 'center',
-        borderBottom: '1px solid rgba(255,255,255,0.1)',
-      }}>
-        <p style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>
-          🎁 <strong>Sign up free</strong> and get <strong>1 professional AI headshot</strong> included
-        </p>
-      </div>
-
       {/* ── HERO ── */}
       <section className="hero">
         <div className="hero-bg" aria-hidden="true">
@@ -148,12 +135,12 @@ export default function AIHeadshotsClient() {
           <div className="hero-content">
             <span className="eyebrow">
               <span className="dot"/>
-              4 AI Models · Studio-grade in 90 seconds
+              1 free photo on sign up · 4 AI Models · 90 seconds
             </span>
             <h1>AI Headshot Generator</h1>
             <p className="lede">
-              Upload a selfie. Choose your professional style. Get a <strong>studio-quality headshot in 90 seconds</strong> — no photographer, no studio, no waiting.
-              Four AI models purpose-built for Real Estate, Legal, Finance &amp; Startups.
+              Upload a selfie. Choose your professional style. Get a <strong>studio-quality headshot in 90 seconds</strong> — no photographer, no studio, no waiting.{' '}
+              <strong>Sign up free and get your first headshot included.</strong>
             </p>
 
             <div style={{ display: 'flex', gap: 14, marginTop: 36, flexWrap: 'wrap' }}>
